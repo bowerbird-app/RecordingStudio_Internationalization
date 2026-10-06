@@ -1,0 +1,12 @@
+# Stand-in for English shipped by other Recording Studio gems.
+# This file is part of the dummy app, not the internationalization gem.
+# It is loaded before the host locale files, so host YAML still wins.
+en:
+  recording_studio:
+    messages:
+      inbox:
+        title: "Inbox"
+        empty: "No messages yet"
+    presskits:
+      index:
+        title: "Press kits"

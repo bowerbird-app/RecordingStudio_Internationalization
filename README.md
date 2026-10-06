@@ -65,7 +65,7 @@ en:
         create: "Create press kit"
 ```
 
-Put that YAML in the gem's `config/locales`. Rails loads it with the engine. The gem does not list the host's languages and does not ship French, Japanese, or German.
+Put that YAML in the gem that owns the screen. Rails loads it with that engine. This internationalization gem ships English only for its language selector. It does not list the host's languages, and it does not ship French, Japanese, German, or another gem's copy.
 
 The host adds a language by dropping a locale file in its own `config/locales`. Host files load after engine files, so they override gem strings, including English.
 

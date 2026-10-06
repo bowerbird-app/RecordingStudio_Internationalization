@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
-GemTemplate::Engine.routes.draw do
+RecordingStudioInternationalization::Engine.routes.draw do
   root "home#index"
+  patch "locale", to: "locales#update", as: :locale
 end

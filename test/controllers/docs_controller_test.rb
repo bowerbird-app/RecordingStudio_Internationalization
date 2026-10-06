@@ -25,9 +25,9 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     get docs_install_path
     assert_response :success
     assert_select "h1", text: "Install"
-    assert_includes response.body, "Step 1"
-    assert_includes response.body, "Provide one section title for each step"
-    assert_includes response.body, "# Put the step instruction here."
+    assert_includes response.body, "Add the gem"
+    assert_includes response.body, "bin/rails generate recording_studio_internationalization:install"
+    assert_includes response.body, "recording_studio_language_selector"
   end
 
   test "config page renders successfully" do
@@ -99,7 +99,7 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", text: "Gem Views"
     assert_select "table", minimum: 1
-    refute_includes response.body, "app/views/gem_template/home/index.html.erb"
+    refute_includes response.body, "app/views/recording_studio_internationalization/home/index.html.erb"
   end
 
   test "methods page renders successfully" do

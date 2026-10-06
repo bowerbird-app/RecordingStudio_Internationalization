@@ -1,0 +1,13 @@
+ja:
+  recording_studio:
+    internationalization:
+      selector:
+        label: "言語"
+        submit: "言語を変更"
+    messages:
+      inbox:
+        title: "受信箱"
+        empty: "メッセージはまだありません"
+    presskits:
+      index:
+        title: "プレスキット"

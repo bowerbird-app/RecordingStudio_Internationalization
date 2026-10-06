@@ -1,0 +1,12 @@
+fr:
+  recording_studio:
+    internationalization:
+      selector:
+        label: "Langue"
+        submit: "Changer de langue"
+    messages:
+      inbox:
+        title: "Boîte de réception"
+    presskits:
+      index:
+        title: "Salle de presse"

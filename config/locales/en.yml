@@ -4,10 +4,3 @@ en:
       selector:
         label: "Language"
         submit: "Change language"
-    messages:
-      inbox:
-        title: "Inbox"
-        empty: "No messages yet"
-    presskits:
-      index:
-        title: "Press kits"

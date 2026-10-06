@@ -4,11 +4,24 @@ require "test_helper"
 
 class RecordingStudioInternationalizationTest < Minitest::Test
   def test_version_matches_release
-    assert_equal "0.1.0", ::RecordingStudioInternationalization::VERSION
+    assert_equal "0.1.1", ::RecordingStudioInternationalization::VERSION
   end
 
   def test_engine_exists
     assert_kind_of Class, ::RecordingStudioInternationalization::Engine
+  end
+
+  def test_packaged_english_is_only_the_selector
+    locale = File.read(File.expand_path("../config/locales/en.yml", __dir__))
+
+    assert_includes locale, "selector:"
+    refute_includes locale, "presskits:"
+    refute_includes locale, "messages:"
+
+    spec = Gem::Specification.load(File.expand_path("../recording_studio_internationalization.gemspec", __dir__))
+    packaged = spec.files.select { |path| path.include?("gem_locale_fixtures") }
+
+    assert_empty packaged
   end
 
   def test_gemspec_pins_recording_studio_4_2

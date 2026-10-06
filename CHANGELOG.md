@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-10-06
+
+The gem's English file now contains only the language selector. Sample inbox and press kit strings were fixtures for the dummy app, and they belong with the gems that own those screens.
+
+### Changed
+
+- Removed `recording_studio.messages` and `recording_studio.presskits` from the packaged English locale.
+
+### Upgrade notes
+
+- No migration and no configuration change.
+- If a host was showing "Inbox", "No messages yet", or "Press kits" from this gem, move those strings into the gem that owns the screen, or into the host's locale file.
+
 ## [0.1.0] - 2026-10-06
 
 First release of the Recording Studio internationalization gem. The repository started from the Recording Studio gem template and is now this engine.

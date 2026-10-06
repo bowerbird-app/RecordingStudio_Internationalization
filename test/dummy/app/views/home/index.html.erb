@@ -11,6 +11,29 @@
     <%= render FlatPack::Card::Component.new(style: :default) do |card| %>
       <% card.header do %>
         <%= render FlatPack::PageTitle::Component.new(
+          title: "Language",
+          subtitle: "Gem strings in the current locale. A choice made here beats browser detection.",
+          variant: :h3,
+          class: "mb-0 pb-0"
+        ) %>
+      <% end %>
+
+      <% card.body do %>
+        <ul class="space-y-3 text-sm leading-6">
+          <li><code>messages.inbox.title</code>: <%= t("recording_studio.messages.inbox.title") %></li>
+          <li><code>messages.inbox.empty</code>: <%= t("recording_studio.messages.inbox.empty") %></li>
+          <li><code>presskits.index.title</code>: <%= t("recording_studio.presskits.index.title") %></li>
+        </ul>
+      <% end %>
+
+      <% card.footer do %>
+        <%= recording_studio_language_selector %>
+      <% end %>
+    <% end %>
+
+    <%= render FlatPack::Card::Component.new(style: :default) do |card| %>
+      <% card.header do %>
+        <%= render FlatPack::PageTitle::Component.new(
           title: "What's working",
           subtitle: "Core template capabilities already wired into the dummy app.",
           variant: :h3,
@@ -21,7 +44,7 @@
       <% card.body do %>
         <ul class="space-y-3 text-sm leading-6">
           <li>Rails engine routes are mounted and responding.</li>
-          <li>PostgreSQL UUID-oriented migrations are included in the engine.</li>
+          <li>The engine ships no migrations. English works with no configuration.</li>
           <li>Tailwind sources can be wired into a host app through the install generator.</li>
           <li>The dummy app exercises authentication, the Recording Studio default layout, and FlatPack.</li>
         </ul>
@@ -91,8 +114,8 @@
       <% card.body do %>
         <ul class="space-y-3 text-sm leading-6">
           <li>Add the gem to your host app and run <code>bundle install</code>.</li>
-          <li>Run <code>rails generate gem_template:install</code> to mount the engine and add configuration.</li>
-          <li>Run <code>rails generate gem_template:migrations</code> to copy engine migrations into the host app.</li>
+          <li>Run <code>rails generate recording_studio_internationalization:install</code> to mount the engine and add configuration.</li>
+          <li>Run <code>bin/rails recording_studio_internationalization:missing</code> to list gem strings a locale lacks.</li>
           <li>Rebuild Tailwind if needed with <code>bin/rails tailwindcss:build</code>.</li>
         </ul>
       <% end %>

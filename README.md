@@ -1,172 +1,172 @@
-# GemTemplate
+# Recording Studio internationalization
 
-Internal template for building Rails engine addons on top of Recording Studio 4.x.
+Recording Studio gems define the vocabulary. Host applications define the languages. English is the universal fallback.
 
-## What's Included
+This gem is a thin layer on Rails I18n. A Recording Studio gem ships translation keys and English text. The host application chooses which languages it offers and supplies the translations for those languages. The gem that owns a screen does not need to know that French, Japanese, or any other language exists.
 
-- **Recording Studio** 4.x gem pinned and configured
-- **Devise** authentication with a pre-seeded admin user
-- **Workspace**, **Folder**, and **Page** recordables seeded into the dummy host app
-- **FlatPack** UI component library for all views
-- **Dummy app** (`test/dummy/`) with a FlatPack sign-in screen, a home page on Recording Studio's default layout, mounted Recording Studio routes, and FlatPack's built-in rounded theme
+Interface text and user-created content are separate. This gem translates buttons, labels, and other static interface copy. It does not translate press kit titles, biographies, or anything stored in the database. It also does not add locale prefixes to URLs.
 
-Authenticated dummy pages use Recording Studio's shared default layout (`RecordingStudio::UsesDefaultLayout`) plus FlatPack CSS and JS. Devise keeps its own sign-in layout. Dummy `/docs/*` pages stay in the dummy app as a host-app sandbox; they are not the product README.
+## Install
 
-## Quick Start
-
-### Cursor Cloud Agent (Recommended)
-
-A Cloud Agent boots this repo into a ready-to-use dev environment with no manual steps. The setup lives in `.cursor/`:
-
-- `install.sh` provisions Ruby (pinned by `.ruby-version`), PostgreSQL 16, all gems, the seeded dummy database, and compiled CSS at build time, then fetches Recording Studio skills.
-- `start.sh` starts PostgreSQL on every boot.
-- `environment.json` runs the `rails-server` and `tailwind-watch` terminals and exposes port 3000.
-
-Open port 3000 and sign in at `/users/sign_in`. No environment variables are required — the dummy app's `database.yml` defaults match the provisioned PostgreSQL cluster.
-
-### GitHub Codespaces
-
-1. Click **Code** → **Codespaces** → **Create codespace**
-2. Wait for setup to complete
-3. Run:
-   ```bash
-   cd test/dummy
-   bin/rails db:setup
-   bin/dev
-   ```
-4. Open port 3000 — you'll land on the dummy app home page and can sign in at `/users/sign_in`
-
-The dummy app is intended as a host-app validation surface for authentication, FlatPack rendering, Tailwind source scanning, and Recording Studio route wiring.
-
-Dummy credentials (`test/dummy/config/credentials.yml.enc`) are encrypted with the shared RecordingStudio_* development master key. Set `RAILS_MASTER_KEY` or put that key in `test/dummy/config/master.key` (gitignored). Keep the encrypted file; do not generate a per-repo dummy key.
-
-### Login Credentials
-
-| Field    | Value             |
-|----------|-------------------|
-| Email    | admin@admin.com   |
-| Password | Password          |
-
-The login form is prefilled with these credentials for fast access.
-
-### Useful Routes
-
-- `/` — dummy app home page
-- `/users/sign_in` — Devise sign-in page
-- `/recording_studio` — redirect to `/` while the mounted Recording Studio engine remains data/API-focused
-- `/docs/install`, `/docs/config`, `/docs/recordable_types`, `/docs/recordings_tree`, `/docs/gem_views`, `/docs/methods` — dummy-only starter pages
-
-The home page in `test/dummy/app/views/home/index.html.erb` is a starting point for a minimal demo of the gem's primary behavior. Keep deeper explanations on the dummy docs pages, not in this README.
-
-## Architecture
-
-### Root Recording Pattern
-
-This template follows Recording Studio's root recording pattern:
-
-- **Workspace** is the top-level recordable
-- **Folder** and **Page** demonstrate nested recordables under the workspace root
-- Each configured recordable declares `recording_studio_recordable(...)`; strict declaration validation stays enabled
-- A root `RecordingStudio::Recording` wraps the Workspace
-- `Current.actor` is set from `current_user` (Devise) in `ApplicationController`
-
-### Extending Recording Studio
-
-To add new recordable types:
-
-1. Create your model (e.g., `Page`, `Comment`)
-2. Register it in `config/initializers/recording_studio.rb`:
-   ```ruby
-   RecordingStudio.configure do |config|
-     config.recordable_types = ["Workspace", "YourNewType"]
-   end
-   ```
-3. Declare whether the model can be a root and which parents may contain it:
-   ```ruby
-   class YourNewType < ApplicationRecord
-     recording_studio_recordable label: "Your new type",
-                                 root: false,
-                                 allowed_parent_types: ["Workspace", "Folder"]
-   end
-   ```
-4. Validate declarations and create recordings under the root:
-   ```ruby
-   RecordingStudio.validate_recordable_declarations!
-   root_recording = RecordingStudio.root_recording_for(workspace)
-   root_recording.record(YourNewType) do |record|
-     record.title = "Example"
-   end
-   ```
-
-### Recordable Declarations
-
-Every configured ActiveRecord recordable type must declare its hierarchy rules. Declarations are required; they are not version-specific.
-
-- `Workspace` declares `root: true`
-- `Folder` and `Page` declare `root: false, allowed_parent_types: ["Workspace", "Folder"]`
-- `config.require_recordable_declarations = true` remains enabled in the dummy app initializer
-
-Useful console checks:
+Add the gem and mount the engine.
 
 ```ruby
-RecordingStudio.validate_recordable_declarations!
-RecordingStudio.root_recordable_types
-RecordingStudio.allowed_parent_types_for("Page")
+gem "recording_studio_internationalization", github: "bowerbird-app/RecordingStudio_Internationalization"
 ```
 
-### Capabilities
+```bash
+bin/rails generate recording_studio_internationalization:install
+```
 
-Capability mixins are opt-in. Installing this gem does not enable mixins on host types.
+The generator mounts the engine and writes `config/initializers/recording_studio_internationalization.rb`. An application that does nothing else runs in English.
 
-The dummy Workspace enables Accessible because that addon is bundled:
+There is no database migration.
+
+## Configure the languages
 
 ```ruby
-RecordingStudio.enable_capability(:accessible, on: Workspace)
+RecordingStudioInternationalization.configure do |config|
+  config.available_locales = {
+    en: { name: "English" },
+    fr: { name: "Français" },
+    ja: { name: "日本語" },
+    ar: { name: "العربية" }
+  }
+  config.default_locale = :en
+end
 ```
 
-The template also ships one example mixin that uses core 4.2.0's `include_for` factory:
+`available_locales` can also be a plain list, `%i[en fr ja]`. English is always included. A locale is available even before you have translated it, so a missing translation can fall back to English instead of raising `I18n::InvalidLocale`.
+
+Optional metadata on each locale is a human name, `direction` (`ltr` or `rtl`), and extra `fallbacks`. Arabic defaults to `rtl`. A regional code such as `pt_br` is stored as `:"pt-BR"`.
+
+You can also set the same keys in `config/recording_studio_internationalization.yml` or `config.x.recording_studio_internationalization`. Later sources replace earlier ones, one key at a time.
+
+1. Defaults on the configuration object.
+2. The `configure` block in `config/initializers`.
+3. The YAML file for the current environment.
+4. `config.x.recording_studio_internationalization`.
+
+`config.i18n.default_locale` still wins when the host has set it to something other than `:en`. That value must be one of the available locales.
+
+## Translate interface text
+
+A Recording Studio gem wraps static interface copy in a key under `recording_studio.<gem>.<section>.<key>` and ships the English string.
+
+```erb
+<%= t("recording_studio.presskits.actions.create") %>
+```
+
+```yaml
+en:
+  recording_studio:
+    presskits:
+      actions:
+        create: "Create press kit"
+```
+
+Put that YAML in the gem's `config/locales`. Rails loads it with the engine. The gem does not list the host's languages and does not ship French, Japanese, or German.
+
+The host adds a language by dropping a locale file in its own `config/locales`. Host files load after engine files, so they override gem strings, including English.
+
+```yaml
+fr:
+  recording_studio:
+    presskits:
+      actions:
+        create: "Créer un dossier de presse"
+```
+
+```yaml
+en:
+  recording_studio:
+    presskits:
+      labels:
+        singular: "Media kit"
+```
+
+Lookup order for a key is the host's translation for the active locale, then any gem translation for that locale, then English, then Rails' normal missing-translation behavior. A new gem key that nobody has translated into French shows the English text.
+
+Older Recording Studio gems sometimes use a top-level key such as `recording_studio_presskits`. This gem does not move those keys. New strings should use the nested `recording_studio` namespace so the owning gem is visible in the key.
+
+## How a request picks a locale
+
+The first match that the host actually offers wins.
+
+1. The locale submitted by the language selector on this request.
+2. The signed-in user's saved locale, when that integration is available.
+3. The `recording_studio_locale` cookie from an earlier explicit choice.
+4. The browser `Accept-Language` header. `fr-CA` can resolve to `fr` when French is offered and Canadian French is not.
+5. A country guess, only when the host turns it on.
+6. The configured default locale.
+7. English.
+
+An explicit choice is stored and is not replaced by browser or country detection on a later request. A detected locale is never stored. Choosing English on purpose is an explicit choice, so a later `Accept-Language: fr` does not switch the interface back.
+
+The engine wraps each request in `I18n.with_locale`. It does not assign `I18n.locale` in a `before_action`, because that value would leak onto the next request on the same thread.
+
+## Language selector
+
+Render the helper where the host wants it. The gem does not add a navigation bar or change a layout.
+
+```erb
+<html <%= tag.attributes(recording_studio_locale_attributes) %>>
+  <%= recording_studio_language_selector %>
+</html>
+```
+
+The control lists only the host's locales and uses each locale's human name. Submitting it stores a permanent cookie and redirects back to the current page. The selector renders nothing when English is the only locale.
+
+`recording_studio_locale_attributes` returns `lang` and `dir` for the current locale.
+
+## Browser language
+
+Browser detection is on unless the visitor already has a cookie or a saved user locale. The header is matched only against the host's available locales. A regional tag walks up to its language. `pt` does not select `pt-BR`, because the shorter tag does not say which regional variant the reader wants.
+
+## Country
+
+Country is a weak signal. Canada, Switzerland, and Australia do not imply one language. Detection is off until the host sets `country_source` to a header name or a callable. The gem does not look up IP addresses.
 
 ```ruby
-include RecordingStudio::Capabilities::Example.to(label: "dummy workspace")
+config.country_source = "CF-IPCountry"
+config.country_locales = { "CA" => "fr" }
 ```
 
-`.to` wraps `RecordingStudio::Capabilities.include_for`. It does not add a fourth verb and it does not call `enable_capability` / `set_capability_options` itself. Folder and Page stay without the example mixin.
+A small built-in map covers countries with one dominant language, such as `JP` to `ja`, `FR` to `fr`, and `DE` to `de`. It does not guess for `CA`, `BE`, `CH`, `US`, `GB`, or `AU`. Set a value to `nil` to remove a built-in entry. The guess is used only when no better signal matched, and only when that language is one of the host's locales.
 
-Use core `RecordingStudio::Hooks` and `RecordingStudio::Services::BaseService`. Do not copy those classes into a new addon.
+## Signed-in users
 
-### FlatPack UI Components
+This gem does not depend on `recording_studio_user`. Anonymous visitors and applications that use another sign-in system still get the cookie.
 
-All views use FlatPack ViewComponents. Available components include:
+When `RecordingStudioUser` is installed, a saved preference lives in the profile's `additional_profile_attributes` under `"locale"`. The host has to allow that key or the value is dropped.
 
-- `FlatPack::Button::Component` — Buttons (`:primary`, `:secondary`, `:ghost`)
-- `FlatPack::Card::Component` — Cards (`:default`, `:elevated`, `:outlined`)
-- `FlatPack::Alert::Component` — Alerts (`:success`, `:error`, `:warning`, `:info`)
-- `FlatPack::Badge::Component` — Status badges
-- `FlatPack::Table::Component` — Data tables
-- `FlatPack::TextInput::Component`, `EmailInput`, `PasswordInput` — Form inputs
-- `FlatPack::PageNav::Component` — Default-layout page navigation
-- `FlatPack::PageTitle::Component` — Page titles
+```ruby
+RecordingStudioUser.configure do |config|
+  config.additional_profile_attributes |= [:locale]
+end
+```
 
-Use the live FlatPack demo app at [flatpack.bowerbird.io](https://flatpack.bowerbird.io/) as the approved UI reference for current shared patterns. Its component table is the fastest way to discover available FlatPack components before introducing new custom UI.
+A signed-in visitor who picks French gets the cookie and, when the allowlist includes `:locale`, a profile update. The write copies the existing name, time zone, and other extras, because `record_profile!` replaces the whole profile. A second submit of the same locale does not write again. If the user has no profile yet, the cookie is still set and no profile is created.
 
-See the [FlatPack README](https://github.com/bowerbird-app/flatpack) for full documentation.
+The reader calls `current_user` by default. Set `current_user_method` when the host uses another method. The gem does not read `Current.actor`, because many hosts assign that later in the request.
 
-## Tech Stack
+Without the users gem, or without `:locale` on the allowlist, only the cookie is used.
 
-| Component       | Version |
-|-----------------|---------|
-| Ruby            | 3.3+    |
-| Rails           | 8.1+    |
-| PostgreSQL      | 16      |
-| TailwindCSS     | 4       |
-| RecordingStudio | 4.x (`~> 4.2` in the gemspec; dummy GitHub tag `v4.2.2`) |
-| Accessible      | dummy GitHub tag `v0.10.1` |
-| Root Switchable | dummy GitHub tag `v0.5.1` |
-| FlatPack        | dummy GitHub tag `v0.1.196` |
-| Devise          | latest  |
+## Find missing translations
 
-The dummy Gemfile keeps `github:` sources so Bundler can fetch those gems. The gemspec still pins `recording_studio` to `~> 4.2` so copied addons declare the core dependency even when GitHub is the fetch source.
+These tasks read the translations Rails has already loaded. They look only at the `recording_studio` namespace. They do not change files, and a missing translation is not a runtime error.
 
-## Documentation
+```bash
+bin/rails recording_studio_internationalization:missing[fr]
+bin/rails recording_studio_internationalization:export[fr]
+```
 
-The original gem template documentation is preserved in `docs/gem_template/` as architectural reference material. Use it as background on the engine conventions; this README and the dummy app are the source of truth for the Recording Studio addon workflow.
+`missing` prints each untranslated key and a count. The exit status is 0 when nothing is missing, 1 when keys are missing, and 2 when the locale argument is not a locale code. With no locale argument it checks every configured locale except English.
+
+`export` prints a YAML skeleton of the gaps to stdout. Each missing key is `~`, with the English text in a comment. Redirect that output yourself if you want a file. Loading an unfilled skeleton does not replace English, because an empty string would.
+
+## For authors of other Recording Studio gems
+
+Replace hard-coded interface strings with `t("recording_studio.<gem>.<section>.<key>")` and ship the English YAML. Do not declare the host's languages, do not add a locale switcher, and do not require translations other than English.
+
+Leave database content and locale-prefixed routes alone. Those are separate problems.

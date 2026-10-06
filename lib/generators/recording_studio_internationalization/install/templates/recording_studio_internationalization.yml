@@ -1,0 +1,11 @@
+development:
+  available_locales:
+    - en
+    - fr
+  default_locale: en
+
+production:
+  available_locales:
+    - en
+    - fr
+  default_locale: en

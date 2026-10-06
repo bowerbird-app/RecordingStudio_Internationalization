@@ -43,8 +43,6 @@
 
   <%= render FlatPack::CodeBlock::Component.new(
     language: :erb,
-    code: <<~CODE
-      <%%= recording_studio_language_selector %>
-    CODE
+    code: "#{'<'}%= recording_studio_language_selector #{'%'}#{'>'}\n"
   ) %>
 </div>

@@ -25,9 +25,9 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     get docs_install_path
     assert_response :success
     assert_select "h1", text: "Install"
-    assert_includes response.body, "Step 1"
-    assert_includes response.body, "Provide one section title for each step"
-    assert_includes response.body, "# Put the step instruction here."
+    assert_includes response.body, "Add the gem"
+    assert_includes response.body, "bin/rails generate recording_studio_internationalization:install"
+    assert_includes response.body, "recording_studio_language_selector"
   end
 
   test "config page renders successfully" do

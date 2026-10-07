@@ -1,9 +1,9 @@
-<% dummy_page_nav(title: "Template Demo", back_url: root_path) %>
+<% dummy_page_nav(title: t("dummy.home.title"), back_url: root_path) %>
 
 <div class="flex w-full flex-col gap-6">
   <%= render FlatPack::PageTitle::Component.new(
-    title: "Template Demo",
-    subtitle: "This dummy app is the browser-facing demo surface for the template.",
+    title: t("dummy.home.title"),
+    subtitle: t("dummy.home.subtitle"),
     variant: :h1
   ) %>
 
@@ -11,8 +11,8 @@
     <%= render FlatPack::Card::Component.new(style: :default) do |card| %>
       <% card.header do %>
         <%= render FlatPack::PageTitle::Component.new(
-          title: "Language",
-          subtitle: "Gem strings in the current locale. A choice made here beats browser detection.",
+          title: t("dummy.home.language.title"),
+          subtitle: t("dummy.home.language.subtitle"),
           variant: :h3,
           class: "mb-0 pb-0"
         ) %>
@@ -34,8 +34,8 @@
     <%= render FlatPack::Card::Component.new(style: :default) do |card| %>
       <% card.header do %>
         <%= render FlatPack::PageTitle::Component.new(
-          title: "What's working",
-          subtitle: "Core template capabilities already wired into the dummy app.",
+          title: t("dummy.home.working.title"),
+          subtitle: t("dummy.home.working.subtitle"),
           variant: :h3,
           class: "mb-0 pb-0"
         ) %>
@@ -43,10 +43,10 @@
 
       <% card.body do %>
         <ul class="space-y-3 text-sm leading-6">
-          <li>Rails engine routes are mounted and responding.</li>
-          <li>The engine ships no migrations. English works with no configuration.</li>
-          <li>Tailwind sources can be wired into a host app through the install generator.</li>
-          <li>The dummy app exercises authentication, the Recording Studio default layout, and FlatPack.</li>
+          <li><%= t("dummy.home.working.routes") %></li>
+          <li><%= t("dummy.home.working.english") %></li>
+          <li><%= t("dummy.home.working.tailwind") %></li>
+          <li><%= t("dummy.home.working.dummy") %></li>
         </ul>
       <% end %>
     <% end %>
@@ -54,8 +54,8 @@
     <%= render FlatPack::Card::Component.new(style: :outlined) do |card| %>
       <% card.header do %>
         <%= render FlatPack::PageTitle::Component.new(
-          title: "Next steps",
-          subtitle: "The usual first moves when turning the template into a real addon.",
+          title: t("dummy.home.next.title"),
+          subtitle: t("dummy.home.next.subtitle"),
           variant: :h3,
           class: "mb-0 pb-0"
         ) %>
@@ -63,10 +63,10 @@
 
       <% card.body do %>
         <ol class="space-y-3 text-sm leading-6 list-decimal pl-5">
-          <li>Run <code>bin/rename_gem your_addon_name</code> when you are ready to rename the engine.</li>
-          <li>Replace the sample migration with your addon tables and install them into the host app.</li>
-          <li>Configure Recording Studio recordable types and capabilities in the host app initializer.</li>
-          <li>Use the dummy app to validate layout, asset scanning, and authentication flows.</li>
+          <li><%= t("dummy.home.next.rename_html") %></li>
+          <li><%= t("dummy.home.next.tables") %></li>
+          <li><%= t("dummy.home.next.types") %></li>
+          <li><%= t("dummy.home.next.dummy") %></li>
         </ol>
       <% end %>
     <% end %>
@@ -74,8 +74,8 @@
     <%= render FlatPack::Card::Component.new(style: :outlined) do |card| %>
       <% card.header do %>
         <%= render FlatPack::PageTitle::Component.new(
-          title: "FlatPack usage",
-          subtitle: "This page uses FlatPack components for its primary UI structure.",
+          title: t("dummy.home.flatpack.title"),
+          subtitle: t("dummy.home.flatpack.subtitle"),
           variant: :h3,
           class: "mb-0 pb-0"
         ) %>
@@ -83,7 +83,7 @@
 
       <% card.body do %>
         <p class="text-sm leading-6 text-(--surface-content-color)">
-          Use FlatPack cards, buttons, badges, inputs, and layout primitives as the default path for addon UI. Keep raw HTML for simple semantic content only.
+          <%= t("dummy.home.flatpack.body") %>
         </p>
       <% end %>
 
@@ -93,7 +93,7 @@
            rel="noopener noreferrer"
            class="inline-flex">
           <%= render FlatPack::Button::Component.new(
-            text: "View FlatPack documentation",
+            text: t("dummy.home.flatpack.docs"),
             style: :primary,
             size: :md
           ) %>
@@ -104,8 +104,8 @@
     <%= render FlatPack::Card::Component.new(style: :default) do |card| %>
       <% card.header do %>
         <%= render FlatPack::PageTitle::Component.new(
-          title: "Install flow",
-          subtitle: "What the host app generator path covers.",
+          title: t("dummy.home.install.title"),
+          subtitle: t("dummy.home.install.subtitle"),
           variant: :h3,
           class: "mb-0 pb-0"
         ) %>
@@ -113,10 +113,10 @@
 
       <% card.body do %>
         <ul class="space-y-3 text-sm leading-6">
-          <li>Add the gem to your host app and run <code>bundle install</code>.</li>
-          <li>Run <code>rails generate recording_studio_internationalization:install</code> to mount the engine and add configuration.</li>
-          <li>Run <code>bin/rails recording_studio_internationalization:missing</code> to list gem strings a locale lacks.</li>
-          <li>Rebuild Tailwind if needed with <code>bin/rails tailwindcss:build</code>.</li>
+          <li><%= t("dummy.home.install.add_gem_html") %></li>
+          <li><%= t("dummy.home.install.generate_html") %></li>
+          <li><%= t("dummy.home.install.missing_html") %></li>
+          <li><%= t("dummy.home.install.tailwind_html") %></li>
         </ul>
       <% end %>
     <% end %>

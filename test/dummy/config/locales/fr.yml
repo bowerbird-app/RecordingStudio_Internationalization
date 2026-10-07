@@ -1,4 +1,105 @@
 fr:
+  dummy:
+    app:
+      name: "Démo du modèle"
+    nav:
+      home: "Accueil"
+      sign_out: "Déconnexion"
+    sessions:
+      title: "Connexion"
+      email: "E-mail"
+      password: "Mot de passe"
+      remember_me: "Se souvenir de moi"
+      submit: "Se connecter"
+      default_account: "Par défaut : admin@admin.com / Password"
+    home:
+      title: "Démo du modèle"
+      subtitle: "Cette appli factice est la vitrine du modèle dans le navigateur."
+      language:
+        title: "Langue"
+        subtitle: "Textes du gem dans la langue actuelle. Un choix ici l'emporte sur la détection du navigateur."
+      working:
+        title: "Ce qui marche déjà"
+        subtitle: "Capacités du modèle déjà branchées dans l'appli factice."
+        routes: "Les routes du moteur Rails sont montées et répondent."
+        english: "Le moteur n'embarque aucune migration. L'anglais fonctionne sans configuration."
+        tailwind: "Les sources Tailwind se branchent dans une appli hôte via le générateur d'installation."
+        dummy: "L'appli factice exerce l'authentification, la mise en page par défaut de Recording Studio, et FlatPack."
+      next:
+        title: "Prochaines étapes"
+        subtitle: "Les premiers gestes habituels pour transformer le modèle en vrai module."
+        rename_html: "Lancez <code>bin/rename_gem your_addon_name</code> quand vous êtes prêt à renommer le moteur."
+        tables: "Remplacez la migration d'exemple par vos tables et installez-les dans l'appli hôte."
+        types: "Configurez les types et capacités Recording Studio dans l'initialiseur de l'appli hôte."
+        dummy: "Servez-vous de l'appli factice pour valider la mise en page, les assets et l'authentification."
+      flatpack:
+        title: "Usage de FlatPack"
+        subtitle: "Cette page s'appuie sur des composants FlatPack pour sa structure principale."
+        body: "Utilisez les cartes, boutons, badges, champs et primitives FlatPack par défaut. Gardez le HTML brut pour le contenu sémantique simple."
+        docs: "Voir la documentation FlatPack"
+      install:
+        title: "Installation"
+        subtitle: "Ce que couvre le générateur de l'appli hôte."
+        add_gem_html: "Ajoutez le gem à votre appli hôte et lancez <code>bundle install</code>."
+        generate_html: "Lancez <code>rails generate recording_studio_internationalization:install</code> pour monter le moteur et ajouter la configuration."
+        missing_html: "Lancez <code>bin/rails recording_studio_internationalization:missing</code> pour lister les textes du gem qu'une langue n'a pas encore."
+        tailwind_html: "Recompilez Tailwind si besoin avec <code>bin/rails tailwindcss:build</code>."
+    docs:
+      install:
+        title: "Installation"
+        subtitle: "Mise en place de l'appli hôte pour le moteur RecordingStudioInternationalization."
+        add_gem:
+          title: "Ajouter le gem"
+          subtitle: "L'anglais fonctionne dès que le moteur est monté. Il n'y a pas de migration."
+        list_languages:
+          title: "Lister les langues"
+          subtitle: "L'hôte nomme les langues. Chaque gem n'embarque que l'anglais."
+        place_selector:
+          title: "Placer le sélecteur"
+          subtitle: "Affichez-le là où les gens doivent changer de langue. Le gem n'ajoute pas sa propre navigation."
+      config:
+        title: "Config"
+        subtitle: "Remplacez ce texte par les réglages que votre gem généré expose."
+      recordable_types:
+        title: "Types d'éléments"
+        subtitle: "La liste vient de RecordingStudio.recordable_declarations et de l'introspection parent/racine."
+        kind:
+          root: "Élément racine"
+          child: "Élément enfant"
+        allowed_parents: "Parents autorisés : %{parents}"
+        none: "aucun"
+        recordings:
+          one: "1 enregistrement pointe vers ce type"
+          other: "%{count} enregistrements pointent vers ce type"
+        recordables:
+          one: "1 élément en base"
+          other: "%{count} éléments en base"
+        empty: "Aucun type n'est configuré."
+      recordings_tree:
+        title: "Arbre des enregistrements"
+        subtitle: "Enregistrements actifs de l'appli factice, en outline parent/enfant."
+        empty: "Aucun enregistrement actif."
+      gem_views:
+        title: "Vues du gem"
+        subtitle: "Les modèles de vues actuellement livrés par le gem."
+        path: "Chemin de la vue"
+        source: "Source"
+        engine: "Moteur du gem"
+      methods:
+        title: "Méthodes"
+        subtitle: "Documentez les méthodes publiques que votre module expose."
+        example: "Méthode d'exemple"
+        hint: "Ajoutez un titre de section et un bloc de code par méthode"
+  devise:
+    failure:
+      already_authenticated: "Vous êtes déjà connecté(e)."
+      unauthenticated: "Vous devez vous connecter pour continuer."
+      invalid: "%{authentication_keys} ou mot de passe incorrect."
+      timeout: "Votre session a expiré. Veuillez vous reconnecter pour continuer."
+    sessions:
+      signed_in: "Connecté(e)."
+      signed_out: "Déconnecté(e)."
+      already_signed_out: "Déconnecté(e)."
   recording_studio:
     internationalization:
       selector:

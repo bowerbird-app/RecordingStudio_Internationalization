@@ -1,9 +1,9 @@
-<% dummy_page_nav(title: "Recordings tree", back_url: root_path) %>
+<% dummy_page_nav(title: t("dummy.docs.recordings_tree.title"), back_url: root_path) %>
 
 <div class="flex w-full flex-col gap-6">
   <%= render FlatPack::PageTitle::Component.new(
-    title: "Recordings tree",
-    subtitle: "Active dummy-app recordings shown as a nested parent/child outline.",
+    title: t("dummy.docs.recordings_tree.title"),
+    subtitle: t("dummy.docs.recordings_tree.subtitle"),
     variant: :h1
   ) %>
 
@@ -14,6 +14,6 @@
       <% end %>
     <% end %>
   <% else %>
-    <p class="text-sm text-(--surface-muted-content-color)">No active recordings found.</p>
+    <p class="text-sm text-(--surface-muted-content-color)"><%= t("dummy.docs.recordings_tree.empty") %></p>
   <% end %>
 </div>

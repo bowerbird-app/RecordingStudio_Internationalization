@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2026-10-07
+
+The dummy app now translates its own chrome. Switching English, French, or Japanese updates titles, card headings, Sign out, and the sign-in form, not only the sample gem strings.
+
+### Changed
+
+- Dummy views wrap host copy in `dummy.*` keys for `en`, `fr`, and `ja`.
+
+### Upgrade notes
+
+- No migration and no configuration change. Host apps are unchanged.
+
 ## [0.1.1] - 2026-10-06
 
 The gem's English file now contains only the language selector. Sample inbox and press kit strings were fixtures for the dummy app, and they belong with the gems that own those screens.

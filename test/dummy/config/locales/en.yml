@@ -1,34 +1,95 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  dummy:
+    app:
+      name: "Template Demo"
+    nav:
+      home: "Home"
+      sign_out: "Sign out"
+    sessions:
+      title: "Login"
+      email: "Email"
+      password: "Password"
+      remember_me: "Remember me"
+      submit: "Sign In"
+      default_account: "Default: admin@admin.com / Password"
+    home:
+      title: "Template Demo"
+      subtitle: "This dummy app is the browser-facing demo surface for the template."
+      language:
+        title: "Language"
+        subtitle: "Gem strings in the current locale. A choice made here beats browser detection."
+      working:
+        title: "What's working"
+        subtitle: "Core template capabilities already wired into the dummy app."
+        routes: "Rails engine routes are mounted and responding."
+        english: "The engine ships no migrations. English works with no configuration."
+        tailwind: "Tailwind sources can be wired into a host app through the install generator."
+        dummy: "The dummy app exercises authentication, the Recording Studio default layout, and FlatPack."
+      next:
+        title: "Next steps"
+        subtitle: "The usual first moves when turning the template into a real addon."
+        rename_html: "Run <code>bin/rename_gem your_addon_name</code> when you are ready to rename the engine."
+        tables: "Replace the sample migration with your addon tables and install them into the host app."
+        types: "Configure Recording Studio recordable types and capabilities in the host app initializer."
+        dummy: "Use the dummy app to validate layout, asset scanning, and authentication flows."
+      flatpack:
+        title: "FlatPack usage"
+        subtitle: "This page uses FlatPack components for its primary UI structure."
+        body: "Use FlatPack cards, buttons, badges, inputs, and layout primitives as the default path for addon UI. Keep raw HTML for simple semantic content only."
+        docs: "View FlatPack documentation"
+      install:
+        title: "Install flow"
+        subtitle: "What the host app generator path covers."
+        add_gem_html: "Add the gem to your host app and run <code>bundle install</code>."
+        generate_html: "Run <code>rails generate recording_studio_internationalization:install</code> to mount the engine and add configuration."
+        missing_html: "Run <code>bin/rails recording_studio_internationalization:missing</code> to list gem strings a locale lacks."
+        tailwind_html: "Rebuild Tailwind if needed with <code>bin/rails tailwindcss:build</code>."
+    docs:
+      install:
+        title: "Install"
+        subtitle: "Host-app setup for the mounted RecordingStudioInternationalization engine."
+        add_gem:
+          title: "Add the gem"
+          subtitle: "English works as soon as the engine is mounted. There is no migration."
+        list_languages:
+          title: "List the languages"
+          subtitle: "The host names the languages. Each gem only ships English."
+        place_selector:
+          title: "Place the selector"
+          subtitle: "Render it where people should change language. The gem does not add its own navigation."
+      config:
+        title: "Config"
+        subtitle: "Replace this placeholder with the configuration settings your generated gem exposes."
+      recordable_types:
+        title: "Recordable types"
+        subtitle: "The list below comes from RecordingStudio.recordable_declarations and parent/root introspection."
+        kind:
+          root: "Root recordable"
+          child: "Child recordable"
+        allowed_parents: "Allowed parents: %{parents}"
+        none: "none"
+        recordings:
+          one: "1 recording point to this type"
+          other: "%{count} recordings point to this type"
+        recordables:
+          one: "1 recordable in the database"
+          other: "%{count} recordables in the database"
+        empty: "No recordable types are configured."
+      recordings_tree:
+        title: "Recordings tree"
+        subtitle: "Active dummy-app recordings shown as a nested parent/child outline."
+        empty: "No active recordings found."
+      gem_views:
+        title: "Gem Views"
+        subtitle: "These are the view templates currently shipped by the gem."
+        path: "View path"
+        source: "Source"
+        engine: "Gem engine"
+      methods:
+        title: "Methods"
+        subtitle: "Document the public methods your addon exposes."
+        example: "Example method"
+        hint: "Provide one section title and codeblock for each method"
   recording_studio:
     presskits:
       index:

@@ -2,7 +2,7 @@
   <% card.body do %>
     <div class="space-y-6">
       <%= render FlatPack::PageTitle::Component.new(
-        title: "Login",
+        title: t("dummy.sessions.title"),
         variant: :h2,
         class: "mb-0 pb-0"
       ) %>
@@ -11,14 +11,14 @@
         <div class="space-y-4">
         <%= render FlatPack::EmailInput::Component.new(
           name: "user[email]",
-          label: "Email",
+          label: t("dummy.sessions.email"),
           value: "admin@admin.com",
           placeholder: "you@example.com"
         ) %>
 
         <%= render FlatPack::PasswordInput::Component.new(
           name: "user[password]",
-          label: "Password",
+          label: t("dummy.sessions.password"),
           value: "Password",
           required: true
         ) %>
@@ -26,12 +26,12 @@
         <% if devise_mapping.rememberable? %>
           <%= render FlatPack::Checkbox::Component.new(
             name: "#{resource_name}[remember_me]",
-            label: "Remember me"
+            label: t("dummy.sessions.remember_me")
           ) %>
         <% end %>
 
         <%= render FlatPack::Button::Component.new(
-          text: "Sign In",
+          text: t("dummy.sessions.submit"),
           style: :primary,
           size: :md,
           type: "submit"
@@ -43,7 +43,7 @@
 
   <% card.footer do %>
     <%= render FlatPack::Badge::Component.new(
-      text: "Default: admin@admin.com / Password",
+      text: t("dummy.sessions.default_account"),
       style: :info,
       size: :sm
     ) %>

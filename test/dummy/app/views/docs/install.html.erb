@@ -1,15 +1,15 @@
-<% dummy_page_nav(title: "Install", back_url: root_path) %>
+<% dummy_page_nav(title: t("dummy.docs.install.title"), back_url: root_path) %>
 
 <div class="flex w-full flex-col gap-6">
   <%= render FlatPack::PageTitle::Component.new(
-    title: "Install",
-    subtitle: "Host-app setup for the mounted RecordingStudioInternationalization engine.",
+    title: t("dummy.docs.install.title"),
+    subtitle: t("dummy.docs.install.subtitle"),
     variant: :h1
   ) %>
 
   <%= render FlatPack::SectionTitle::Component.new(
-    title: "Add the gem",
-    subtitle: "English works as soon as the engine is mounted. There is no migration.",
+    title: t("dummy.docs.install.add_gem.title"),
+    subtitle: t("dummy.docs.install.add_gem.subtitle"),
   ) %>
 
   <%= render FlatPack::CodeBlock::Component.new(
@@ -20,8 +20,8 @@
   ) %>
 
   <%= render FlatPack::SectionTitle::Component.new(
-    title: "List the languages",
-    subtitle: "The host names the languages. Each gem only ships English.",
+    title: t("dummy.docs.install.list_languages.title"),
+    subtitle: t("dummy.docs.install.list_languages.subtitle"),
   ) %>
 
   <%= render FlatPack::CodeBlock::Component.new(
@@ -37,8 +37,8 @@
   ) %>
 
   <%= render FlatPack::SectionTitle::Component.new(
-    title: "Place the selector",
-    subtitle: "Render it where people should change language. The gem does not add its own navigation.",
+    title: t("dummy.docs.install.place_selector.title"),
+    subtitle: t("dummy.docs.install.place_selector.subtitle"),
   ) %>
 
   <%= render FlatPack::CodeBlock::Component.new(

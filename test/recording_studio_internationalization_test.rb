@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "yaml"
 
 class RecordingStudioInternationalizationTest < Minitest::Test
   def test_version_matches_release
-    assert_equal "0.1.1", ::RecordingStudioInternationalization::VERSION
+    assert_equal "0.1.2", ::RecordingStudioInternationalization::VERSION
   end
 
   def test_engine_exists
@@ -133,7 +134,8 @@ class RecordingStudioInternationalizationTest < Minitest::Test
   def test_dummy_login_layout_keeps_flatpack_assets_without_tight_main_offset
     application_layout = File.read(File.expand_path("dummy/app/views/layouts/application.html.erb", __dir__))
 
-    assert_includes application_layout, '<html data-theme="rounded">'
+    assert_includes application_layout, "recording_studio_locale_attributes"
+    assert_includes application_layout, 'data-theme="rounded"'
     assert_includes application_layout, 'stylesheet_link_tag "flat_pack/variables"'
     assert_includes application_layout, 'stylesheet_link_tag "flat_pack/application"'
     assert_includes application_layout, 'stylesheet_link_tag "flat_pack/rich_text"'
@@ -199,14 +201,37 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     refute_includes readme, "GemTemplate"
   end
 
+  def test_dummy_chrome_uses_the_dummy_translation_namespace
+    helper = File.read(File.expand_path("dummy/app/helpers/application_helper.rb", __dir__))
+    sign_in = File.read(File.expand_path("dummy/app/views/devise/sessions/new.html.erb", __dir__))
+    locales = %w[en fr ja].map do |locale|
+      YAML.safe_load_file(File.expand_path("dummy/config/locales/#{locale}.yml", __dir__))
+    end
+
+    assert_includes helper, 't("dummy.nav.sign_out")'
+    refute_includes helper, 'text: "Sign out"'
+    assert_includes sign_in, 't("dummy.sessions.title")'
+    refute_includes sign_in, 'title: "Login"'
+    locales.each do |data|
+      locale = data.keys.first
+      title = data.dig(locale, "dummy", "home", "title")
+
+      assert_kind_of String, title
+      refute_empty title
+    end
+    refute_equal locales[0].dig("en", "dummy", "home", "title"), locales[1].dig("fr", "dummy", "home", "title")
+    refute_equal locales[0].dig("en", "dummy", "home", "title"), locales[2].dig("ja", "dummy", "home", "title")
+  end
+
   def test_dummy_home_page_uses_demo_title_only
     view_path = File.expand_path("dummy/app/views/home/index.html.erb", __dir__)
     view_source = File.read(view_path)
 
-    assert_includes view_source, 'title: "Template Demo"'
-    assert_includes view_source, 'subtitle: "This dummy app is the browser-facing demo surface for the template."'
+    assert_includes view_source, 't("dummy.home.title")'
+    assert_includes view_source, 't("dummy.home.subtitle")'
     assert_includes view_source, "FlatPack::Card::Component"
     assert_includes view_source, "dummy_page_nav"
+    refute_includes view_source, 'title: "Template Demo"'
     refute_includes view_source, 'title: "Demo"'
     refute_includes view_source, "FlatPack::Breadcrumb::Component"
   end
@@ -247,7 +272,7 @@ class RecordingStudioInternationalizationTest < Minitest::Test
   def test_dummy_recordings_tree_view_omits_structure_section_copy
     recordings_tree_view = File.read(File.expand_path("dummy/app/views/docs/recordings_tree.html.erb", __dir__))
 
-    assert_includes recordings_tree_view, 'title: "Recordings tree"'
+    assert_includes recordings_tree_view, 't("dummy.docs.recordings_tree.title")'
     assert_includes recordings_tree_view, "FlatPack::Tree::Component"
     recording_tree_partial = File.read(File.expand_path("dummy/app/views/docs/_recording_tree_node.html.erb", __dir__))
     assert_includes recording_tree_partial, "parent_builder.node"

@@ -1,16 +1,16 @@
-<% dummy_page_nav(title: "Gem Views", back_url: root_path) %>
+<% dummy_page_nav(title: t("dummy.docs.gem_views.title"), back_url: root_path) %>
 
 <div class="flex w-full flex-col gap-6">
   <%= render FlatPack::PageTitle::Component.new(
-    title: "Gem Views",
-    subtitle: "These are the view templates currently shipped by the gem.",
+    title: t("dummy.docs.gem_views.title"),
+    subtitle: t("dummy.docs.gem_views.subtitle"),
     variant: :h1
   ) %>
 
-  <% view_rows = Array(@engine_views).map { |view_path| { path: view_path, source: "Gem engine" } } %>
+  <% view_rows = Array(@engine_views).map { |view_path| { path: view_path, source: t("dummy.docs.gem_views.engine") } } %>
 
   <%= render FlatPack::Table::Component.new(data: view_rows, class: "text-sm") do |table| %>
-    <% table.column(title: "View path") { |view| view[:path] } %>
-    <% table.column(title: "Source") { |view| view[:source] } %>
+    <% table.column(title: t("dummy.docs.gem_views.path")) { |view| view[:path] } %>
+    <% table.column(title: t("dummy.docs.gem_views.source")) { |view| view[:source] } %>
   <% end %>
 </div>

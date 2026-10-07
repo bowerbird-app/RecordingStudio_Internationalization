@@ -162,6 +162,75 @@ class InternationalizationTest < ActionDispatch::IntegrationTest
     assert_equal "recording_studio_locale=en", locale_cookie_attributes.first
   end
 
+  test "home chrome follows English, French, and Japanese" do
+    chrome_keys = %w[
+      dummy.home.title
+      dummy.home.subtitle
+      dummy.home.language.title
+      dummy.home.working.title
+      dummy.nav.sign_out
+    ]
+
+    chrome_keys.each do |key|
+      english = I18n.t(key, locale: :en)
+
+      refute_equal english, I18n.t(key, locale: :fr), key
+      refute_equal english, I18n.t(key, locale: :ja), key
+    end
+
+    {
+      en: {},
+      fr: { "Accept-Language" => "fr" },
+      ja: { "Accept-Language" => "ja" }
+    }.each do |locale, headers|
+      get "/", headers: headers
+
+      assert_response :success
+      assert_select "h1", text: I18n.t("dummy.home.title", locale:)
+      assert_select "h3", text: I18n.t("dummy.home.language.title", locale:)
+      assert_select "h3", text: I18n.t("dummy.home.working.title", locale:)
+      assert_includes response.body, I18n.t("dummy.nav.sign_out", locale:)
+      next if locale == :en
+
+      refute_includes response.body, "Template Demo"
+      refute_includes response.body, "Sign out"
+    end
+  end
+
+  test "sign-in chrome follows the requested locale" do
+    sign_out :user
+
+    get new_user_session_path, headers: { "Accept-Language" => "fr" }
+
+    assert_response :success
+    assert_select "h2", text: I18n.t("dummy.sessions.title", locale: :fr)
+    assert_includes response.body, I18n.t("dummy.sessions.submit", locale: :fr)
+    assert_includes response.body, I18n.t("dummy.sessions.email", locale: :fr)
+    refute_includes response.body, "Sign In"
+
+    get new_user_session_path, headers: { "Accept-Language" => "ja" }
+
+    assert_select "h2", text: I18n.t("dummy.sessions.title", locale: :ja)
+    assert_includes response.body, I18n.t("dummy.sessions.submit", locale: :ja)
+  end
+
+  test "docs chrome follows a stored locale cookie" do
+    patch LOCALE_PATH, params: { locale: "ja", return_to: "/docs/install" }
+    follow_redirect!
+
+    assert_response :success
+    assert_select "h1", text: I18n.t("dummy.docs.install.title", locale: :ja)
+    assert_includes response.body, I18n.t("dummy.nav.sign_out", locale: :ja)
+    refute_includes response.body, "Sign out"
+  end
+
+  test "dummy chrome keys match across English, French, and Japanese" do
+    keys = %i[en fr ja].index_with { |locale| nested_translation_keys(I18n.t("dummy", locale:)) }
+
+    assert_equal keys[:en], keys[:fr]
+    assert_equal keys[:en], keys[:ja]
+  end
+
   test "the missing task lists a key French lacks and nothing outside the gem namespace" do
     out, err, status = run_rails("recording_studio_internationalization:missing[fr]")
 
@@ -230,5 +299,14 @@ class InternationalizationTest < ActionDispatch::IntegrationTest
 
   def run_rails(task)
     Open3.capture3({ "RAILS_ENV" => "test" }, "bin/rails", task, chdir: Rails.root.to_s)
+  end
+
+  def nested_translation_keys(value, prefix = "")
+    case value
+    when Hash
+      value.flat_map { |key, child| nested_translation_keys(child, [prefix, key].reject(&:blank?).join(".")) }.sort
+    else
+      [prefix]
+    end
   end
 end

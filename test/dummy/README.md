@@ -10,6 +10,7 @@ This Rails app exists to validate the Recording Studio addon template in a real 
 - Recording Studio default layout, FlatPack assets, and Tailwind source scanning
 - Mounted `RecordingStudio::Engine` route behavior inside a host app
 - A language selector on the home page for English, French, and Japanese
+- Dummy chrome (titles, card headings, Sign out, sign-in) translated under `dummy.*` in `config/locales`
 - Dummy-only `/docs/*` pages for gem-specific onboarding
 
 ## Quick Start
@@ -30,7 +31,7 @@ Then open the app and sign in with:
 
 ## Useful Routes
 
-- `/` - dummy app home page, template guidance, and the language selector
+- `/` - dummy app home page, language selector, and translated host chrome
 - `/recording_studio` - redirects to `/` while the mounted Recording Studio engine stays available under that prefix for non-root routes
 - `/users/sign_in` - Devise sign-in page
 - `/docs/install`, `/docs/config`, `/docs/recordable_types`, `/docs/recordings_tree`, `/docs/gem_views`, `/docs/methods` - dummy-only starter pages
@@ -38,7 +39,7 @@ Then open the app and sign in with:
 
 ## Why This App Exists
 
-Use this app to exercise the internationalization engine inside a real host: sign in, switch language, and confirm the choice sticks. If a layout, route, asset source, or Recording Studio initializer change breaks here, fix it before relying on the pattern in another host.
+Use this app to exercise the internationalization engine inside a real host: sign in, switch language, and confirm the choice sticks. Host chrome lives in `config/locales/{en,fr,ja}.yml` under `dummy.*`. Gem sample strings stay under `recording_studio.*`. If a layout, route, asset source, or Recording Studio initializer change breaks here, fix it before relying on the pattern in another host.
 
 Authenticated pages use Recording Studio's shared default layout. Devise sign-in keeps `layouts/application`. Replace dummy docs page content so it matches the gem's actual concepts.
 

@@ -1,4 +1,105 @@
 ja:
+  dummy:
+    app:
+      name: "テンプレートデモ"
+    nav:
+      home: "ホーム"
+      sign_out: "ログアウト"
+    sessions:
+      title: "ログイン"
+      email: "メールアドレス"
+      password: "パスワード"
+      remember_me: "ログインしたままにする"
+      submit: "ログイン"
+      default_account: "初期値: admin@admin.com / Password"
+    home:
+      title: "テンプレートデモ"
+      subtitle: "このダミーアプリは、テンプレートをブラウザで試すための画面です。"
+      language:
+        title: "言語"
+        subtitle: "いまの言語での gem の文言です。ここで選ぶと、ブラウザの言語より優先されます。"
+      working:
+        title: "もう動いていること"
+        subtitle: "ダミーアプリにすでに載っているテンプレートの機能です。"
+        routes: "Rails エンジンのルートはマウント済みで応答します。"
+        english: "エンジンにマイグレーションはありません。設定なしでも英語が使えます。"
+        tailwind: "インストール用ジェネレータで、ホストアプリに Tailwind のソースを通せます。"
+        dummy: "ダミーアプリは認証、Recording Studio の既定レイアウト、FlatPack を試します。"
+      next:
+        title: "次の一歩"
+        subtitle: "テンプレートを本番のアドオンにするときの、いつもの最初の作業です。"
+        rename_html: "エンジン名を変える準備ができたら <code>bin/rename_gem your_addon_name</code> を実行します。"
+        tables: "サンプルのマイグレーションをアドオンのテーブルに置き換え、ホストアプリへ入れます。"
+        types: "ホストアプリのイニシャライザで Recording Studio のタイプと機能を設定します。"
+        dummy: "レイアウト、アセットの走査、認証の流れはダミーアプリで確認します。"
+      flatpack:
+        title: "FlatPack の使い方"
+        subtitle: "このページの主な UI は FlatPack コンポーネントで組んでいます。"
+        body: "アドオン UI は FlatPack のカード、ボタン、バッジ、入力、レイアウトを既定にします。生の HTML は単純な意味的な内容だけにします。"
+        docs: "FlatPack のドキュメントを見る"
+      install:
+        title: "インストールの流れ"
+        subtitle: "ホストアプリのジェネレータがカバーする範囲です。"
+        add_gem_html: "ホストアプリの Gemfile に追加し、<code>bundle install</code> を実行します。"
+        generate_html: "<code>rails generate recording_studio_internationalization:install</code> でエンジンをマウントし、設定を足します。"
+        missing_html: "<code>bin/rails recording_studio_internationalization:missing</code> で、その言語に足りない gem の文言を一覧します。"
+        tailwind_html: "必要なら <code>bin/rails tailwindcss:build</code> で Tailwind を再ビルドします。"
+    docs:
+      install:
+        title: "インストール"
+        subtitle: "マウント済みの RecordingStudioInternationalization エンジン向けのホスト設定です。"
+        add_gem:
+          title: "gem を追加"
+          subtitle: "エンジンをマウントした時点で英語が使えます。マイグレーションはありません。"
+        list_languages:
+          title: "言語を列挙"
+          subtitle: "言語はホストが決めます。各 gem は英語だけを同梱します。"
+        place_selector:
+          title: "セレクターを置く"
+          subtitle: "言語を変える場所に置きます。この gem は独自のナビを足しません。"
+      config:
+        title: "設定"
+        subtitle: "生成した gem が公開する設定に、この文言を置き換えてください。"
+      recordable_types:
+        title: "タイプ一覧"
+        subtitle: "一覧は RecordingStudio.recordable_declarations と親子の参照から作っています。"
+        kind:
+          root: "ルートタイプ"
+          child: "子タイプ"
+        allowed_parents: "親として許可: %{parents}"
+        none: "なし"
+        recordings:
+          one: "このタイプを指す記録は %{count} 件"
+          other: "このタイプを指す記録は %{count} 件"
+        recordables:
+          one: "データベース内の件数は %{count} 件"
+          other: "データベース内の件数は %{count} 件"
+        empty: "タイプは設定されていません。"
+      recordings_tree:
+        title: "記録ツリー"
+        subtitle: "ダミーアプリの有効な記録を、親子のアウトラインで表示します。"
+        empty: "有効な記録はありません。"
+      gem_views:
+        title: "gem のビュー"
+        subtitle: "この gem がいま同梱しているビューテンプレートです。"
+        path: "ビューのパス"
+        source: "出典"
+        engine: "gem エンジン"
+      methods:
+        title: "メソッド"
+        subtitle: "アドオンが公開するメソッドを書いてください。"
+        example: "メソッドの例"
+        hint: "メソッドごとにセクション見出しとコードブロックを用意してください"
+  devise:
+    failure:
+      already_authenticated: "すでにログインしています。"
+      unauthenticated: "続けるにはログインが必要です。"
+      invalid: "%{authentication_keys}またはパスワードが違います。"
+      timeout: "セッションの有効期限が切れました。続けるにはもう一度ログインしてください。"
+    sessions:
+      signed_in: "ログインしました。"
+      signed_out: "ログアウトしました。"
+      already_signed_out: "ログアウトしました。"
   recording_studio:
     internationalization:
       selector:

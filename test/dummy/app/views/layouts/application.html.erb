@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html data-theme="rounded">
+<html <%= tag.attributes(recording_studio_locale_attributes) %> data-theme="rounded">
   <head>
-    <title><%= content_for(:title) || "Dummy" %></title>
+    <title><%= content_for(:title) || t("dummy.app.name") %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Dummy">
+    <meta name="application-name" content="<%= t("dummy.app.name") %>">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>

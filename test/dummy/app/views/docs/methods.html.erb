@@ -1,14 +1,14 @@
-<% dummy_page_nav(title: "Methods", back_url: root_path) %>
+<% dummy_page_nav(title: t("dummy.docs.methods.title"), back_url: root_path) %>
 
 <div class="flex w-full flex-col gap-6">
   <%= render FlatPack::PageTitle::Component.new(
-    title: "Methods",
-    subtitle: "Document the public methods your addon exposes.",
+    title: t("dummy.docs.methods.title"),
+    subtitle: t("dummy.docs.methods.subtitle"),
     variant: :h1
   ) %>
 
   <%= render FlatPack::SectionTitle::Component.new(
-    title: "Example method",
+    title: t("dummy.docs.methods.example"),
     subtitle: "recordingstudio_addon.example_method",
   ) %>
 
@@ -27,6 +27,6 @@
   ) %>
 
   <p class="text-sm text-(--body-muted-content-color)">
-    Provide one section title and codeblock for each method
+    <%= t("dummy.docs.methods.hint") %>
   </p>
 </div>

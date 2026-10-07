@@ -152,8 +152,8 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def recordable_type_summary(recording_count, recordable_count)
-    "#{I18n.t("dummy.docs.recordable_types.recordings", count: recording_count)} • " \
-      "#{I18n.t("dummy.docs.recordable_types.recordables", count: recordable_count)}"
+    "#{I18n.t('dummy.docs.recordable_types.recordings', count: recording_count)} • " \
+      "#{I18n.t('dummy.docs.recordable_types.recordables', count: recordable_count)}"
   end
 
   def record_child(recordable, root_recording, parent_recording)

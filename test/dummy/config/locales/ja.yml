@@ -1,121 +1,296 @@
 ja:
   dummy:
     app:
-      name: "テンプレートデモ"
+      name: テンプレートデモ
     nav:
-      home: "ホーム"
-      sign_out: "ログアウト"
+      home: ホーム
+      sign_out: ログアウト
     sessions:
-      title: "ログイン"
-      email: "メールアドレス"
-      password: "パスワード"
-      remember_me: "ログインしたままにする"
-      submit: "ログイン"
-      default_account: "初期値: admin@admin.com / Password"
+      title: ログイン
+      email: メールアドレス
+      password: パスワード
+      remember_me: ログインしたままにする
+      submit: ログイン
+      default_account: '初期値: admin@admin.com / Password'
     home:
-      title: "テンプレートデモ"
-      subtitle: "このダミーアプリは、テンプレートをブラウザで試すための画面です。"
+      title: テンプレートデモ
+      subtitle: このダミーアプリは、テンプレートをブラウザで試すための画面です。
       language:
-        title: "言語"
-        subtitle: "いまの言語での gem の文言です。ここで選ぶと、ブラウザの言語より優先されます。"
+        title: 言語
+        subtitle: いまの言語での gem の文言です。ここで選ぶと、ブラウザの言語より優先されます。
       working:
-        title: "もう動いていること"
-        subtitle: "ダミーアプリにすでに載っているテンプレートの機能です。"
-        routes: "Rails エンジンのルートはマウント済みで応答します。"
-        english: "エンジンにマイグレーションはありません。設定なしでも英語が使えます。"
-        tailwind: "インストール用ジェネレータで、ホストアプリに Tailwind のソースを通せます。"
-        dummy: "ダミーアプリは認証、Recording Studio の既定レイアウト、FlatPack を試します。"
+        title: もう動いていること
+        subtitle: ダミーアプリにすでに載っているテンプレートの機能です。
+        routes: Rails エンジンのルートはマウント済みで応答します。
+        english: エンジンにマイグレーションはありません。設定なしでも英語が使えます。
+        tailwind: インストール用ジェネレータで、ホストアプリに Tailwind のソースを通せます。
+        dummy: ダミーアプリは認証、Recording Studio の既定レイアウト、FlatPack を試します。
       next:
-        title: "次の一歩"
-        subtitle: "テンプレートを本番のアドオンにするときの、いつもの最初の作業です。"
-        rename_html: "エンジン名を変える準備ができたら <code>bin/rename_gem your_addon_name</code> を実行します。"
-        tables: "サンプルのマイグレーションをアドオンのテーブルに置き換え、ホストアプリへ入れます。"
-        types: "ホストアプリのイニシャライザで Recording Studio のタイプと機能を設定します。"
-        dummy: "レイアウト、アセットの走査、認証の流れはダミーアプリで確認します。"
+        title: 次の一歩
+        subtitle: テンプレートを本番のアドオンにするときの、いつもの最初の作業です。
+        rename_html: エンジン名を変える準備ができたら <code>bin/rename_gem your_addon_name</code>
+          を実行します。
+        tables: サンプルのマイグレーションをアドオンのテーブルに置き換え、ホストアプリへ入れます。
+        types: ホストアプリのイニシャライザで Recording Studio のタイプと機能を設定します。
+        dummy: レイアウト、アセットの走査、認証の流れはダミーアプリで確認します。
       flatpack:
-        title: "FlatPack の使い方"
-        subtitle: "このページの主な UI は FlatPack コンポーネントで組んでいます。"
-        body: "アドオン UI は FlatPack のカード、ボタン、バッジ、入力、レイアウトを既定にします。生の HTML は単純な意味的な内容だけにします。"
-        docs: "FlatPack のドキュメントを見る"
+        title: FlatPack の使い方
+        subtitle: このページの主な UI は FlatPack コンポーネントで組んでいます。
+        body: アドオン UI は FlatPack のカード、ボタン、バッジ、入力、レイアウトを既定にします。生の HTML は単純な意味的な内容だけにします。
+        docs: FlatPack のドキュメントを見る
       install:
-        title: "インストールの流れ"
-        subtitle: "ホストアプリのジェネレータがカバーする範囲です。"
-        add_gem_html: "ホストアプリの Gemfile に追加し、<code>bundle install</code> を実行します。"
-        generate_html: "<code>rails generate recording_studio_internationalization:install</code> でエンジンをマウントし、設定を足します。"
-        missing_html: "<code>bin/rails recording_studio_internationalization:missing</code> で、その言語に足りない gem の文言を一覧します。"
-        tailwind_html: "必要なら <code>bin/rails tailwindcss:build</code> で Tailwind を再ビルドします。"
+        title: インストールの流れ
+        subtitle: ホストアプリのジェネレータがカバーする範囲です。
+        add_gem_html: ホストアプリの Gemfile に追加し、<code>bundle install</code> を実行します。
+        generate_html: "<code>rails generate recording_studio_internationalization:install</code>
+          でエンジンをマウントし、設定を足します。"
+        missing_html: "<code>bin/rails recording_studio_internationalization:missing</code>
+          で、その言語に足りない gem の文言を一覧します。"
+        tailwind_html: 必要なら <code>bin/rails tailwindcss:build</code> で Tailwind を再ビルドします。
     docs:
       install:
-        title: "インストール"
-        subtitle: "マウント済みの RecordingStudioInternationalization エンジン向けのホスト設定です。"
+        title: インストール
+        subtitle: マウント済みの RecordingStudioInternationalization エンジン向けのホスト設定です。
         add_gem:
-          title: "gem を追加"
-          subtitle: "エンジンをマウントした時点で英語が使えます。マイグレーションはありません。"
+          title: gem を追加
+          subtitle: エンジンをマウントした時点で英語が使えます。マイグレーションはありません。
         list_languages:
-          title: "言語を列挙"
-          subtitle: "言語はホストが決めます。各 gem は英語だけを同梱します。"
+          title: 言語を列挙
+          subtitle: 言語はホストが決めます。各 gem は英語だけを同梱します。
         place_selector:
-          title: "セレクターを置く"
-          subtitle: "言語を変える場所に置きます。この gem は独自のナビを足しません。"
+          title: セレクターを置く
+          subtitle: 言語を変える場所に置きます。この gem は独自のナビを足しません。
       config:
-        title: "設定"
-        subtitle: "生成した gem が公開する設定に、この文言を置き換えてください。"
+        title: 設定
+        subtitle: 生成した gem が公開する設定に、この文言を置き換えてください。
       recordable_types:
-        title: "タイプ一覧"
-        subtitle: "一覧は RecordingStudio.recordable_declarations と親子の参照から作っています。"
+        title: タイプ一覧
+        subtitle: 一覧は RecordingStudio.recordable_declarations と親子の参照から作っています。
         kind:
-          root: "ルートタイプ"
-          child: "子タイプ"
-        allowed_parents: "親として許可: %{parents}"
-        none: "なし"
+          root: ルートタイプ
+          child: 子タイプ
+        allowed_parents: '親として許可: %{parents}'
+        none: なし
         recordings:
-          one: "このタイプを指す記録は %{count} 件"
-          other: "このタイプを指す記録は %{count} 件"
+          one: このタイプを指す記録は %{count} 件
+          other: このタイプを指す記録は %{count} 件
         recordables:
-          one: "データベース内の件数は %{count} 件"
-          other: "データベース内の件数は %{count} 件"
-        empty: "タイプは設定されていません。"
+          one: データベース内の件数は %{count} 件
+          other: データベース内の件数は %{count} 件
+        empty: タイプは設定されていません。
       recordings_tree:
-        title: "記録ツリー"
-        subtitle: "ダミーアプリの有効な記録を、親子のアウトラインで表示します。"
-        empty: "有効な記録はありません。"
+        title: 記録ツリー
+        subtitle: ダミーアプリの有効な記録を、親子のアウトラインで表示します。
+        empty: 有効な記録はありません。
       gem_views:
-        title: "gem のビュー"
-        subtitle: "この gem がいま同梱しているビューテンプレートです。"
-        path: "ビューのパス"
-        source: "出典"
-        engine: "gem エンジン"
+        title: gem のビュー
+        subtitle: この gem がいま同梱しているビューテンプレートです。
+        path: ビューのパス
+        source: 出典
+        engine: gem エンジン
       methods:
-        title: "メソッド"
-        subtitle: "アドオンが公開するメソッドを書いてください。"
-        example: "メソッドの例"
-        hint: "メソッドごとにセクション見出しとコードブロックを用意してください"
+        title: メソッド
+        subtitle: アドオンが公開するメソッドを書いてください。
+        example: メソッドの例
+        hint: メソッドごとにセクション見出しとコードブロックを用意してください
   devise:
     failure:
-      already_authenticated: "すでにログインしています。"
-      unauthenticated: "続けるにはログインが必要です。"
+      already_authenticated: すでにログインしています。
+      unauthenticated: 続けるにはログインが必要です。
       invalid: "%{authentication_keys}またはパスワードが違います。"
-      timeout: "セッションの有効期限が切れました。続けるにはもう一度ログインしてください。"
+      timeout: セッションの有効期限が切れました。続けるにはもう一度ログインしてください。
     sessions:
-      signed_in: "ログインしました。"
-      signed_out: "ログアウトしました。"
-      already_signed_out: "ログアウトしました。"
+      signed_in: ログインしました。
+      signed_out: ログアウトしました。
+      already_signed_out: ログアウトしました。
   recording_studio:
     core:
       navigation:
-        back: "戻る"
-        go_back: "戻る"
-        close: "閉じる"
-        page: "ページナビゲーション"
-        action_page: "アクションページのナビゲーション"
+        back: 戻る
+        go_back: 戻る
+        close: 閉じる
+        page: ページナビゲーション
+        action_page: アクションページのナビゲーション
     internationalization:
       selector:
-        label: "言語"
-        submit: "言語を変更"
+        label: 言語
+        submit: 言語を変更
     messages:
       inbox:
-        title: "受信箱"
-        empty: "メッセージはまだありません"
+        title: 受信箱
+        empty: メッセージはまだありません
     presskits:
       index:
-        title: "プレスキット"
+        title: プレスキット
+    root_switchable:
+      layout:
+        title: Recording Studio
+        application_name: Recording Studio
+      navigation:
+        close: 閉じる
+      dropdown:
+        none_selected: 未選択
+    accessible:
+      layout:
+        title: Recording Studio Accessible
+      roles:
+        view: 閲覧
+        edit: 編集
+        admin: 管理
+      invitations:
+        title: 招待
+        email: メール %{email}
+        role: 役割 %{role}
+        recording: 対象 %{recording}
+        state: 状態 %{state}
+        sign_in_with_email: この招待を受け取るには %{email} でログインしてください。
+        accept: 招待を受け取る
+        states:
+          pending: 保留中
+          accepted: 受諾済み
+          revoked: 取り消し済み
+          expired: 期限切れ
+      manage:
+        title: アクセスを管理
+        add: アクセスを追加
+        add_access: "+ アクセス"
+        people: アクセスできる人
+        empty_title: まだ直接のアクセスはありません
+        empty_subtitle: 誰かにアクセスを渡すには追加してください。
+        inherited_title: ほかにアクセスできる人
+        inherited_subtitle: 別の場所で付与されたアクセス
+        pending_invitation: 保留中の招待
+        expired: 期限切れ
+        resend: 再送
+        cancel_invitation: 招待を取り消す
+        remove_access: アクセスを外す
+        edit: 編集
+        manage_access: アクセスを管理
+        invitation_actions: 招待の操作
+        access_actions: アクセスの操作
+        access_point_actions: アクセスポイントの操作
+        columns:
+          who: だれ
+          type: 種類
+          role: 役割
+          actions: 操作
+          access_point: アクセスポイント
+      form:
+        new_title: 新しいアクセス
+        edit_title: アクセスを編集
+        create: アクセスを作成
+        update: アクセスを更新
+        user_email: 相手のメール
+        email_placeholder: email@example.com
+        role: 役割
+        recording: 対象
+        recording_inside: "%{root} 内の %{type}"
+      flashes:
+        access_granted: アクセスを付与しました。
+        invitation_sent: 招待を送りました。
+        invitation_revoked: 招待を取り消しました。
+        access_removed: アクセスを外しました。
+        invitation_already_accepted: 招待はすでに受諾済みです。
+        sign_in_to_accept: この招待を受け取るにはログインしてください
+      errors:
+        invitation_not_found: 招待が見つかりません
+        invitation_wrong_email: この招待は別のメールアドレス宛てです
+        invitation_expired: 招待の期限が切れています
+        invitation_revoked: 招待は取り消されています
+        invitation_already_accepted: 招待はすでに受諾済みです
+        invitation_not_sent: 招待を送れませんでした。
+        invitation_not_saved: 招待を保存できませんでした
+        not_authorized: アクセスを管理する権限がありません
+        recording_required: 対象は必須です
+        actor_required: 相手は必須です
+        access_recording_required: アクセスは必須です
+        access_recording_invalid: アクセスが無効です
+        role_invalid: 役割が無効です
+        actor_type_not_allowed: この相手の種類はアクセスに使えません
+        email_required: メールは必須です
+        email_invalid: メールが無効です
+        user_required: 相手は必須です
+        user_not_found: メール %{email} の相手が見つかりません
+        unknown_actor: 不明な相手
+        unknown: 不明
+        direct_access_not_enabled: この対象では直接アクセスが有効ではありません
+        grant_denied: 共有ルートそのものではなく、その下の対象にアクセスを付与してください。
+        email_not_normalized: 正規化されている必要があります
+        cannot_change: 変更できません
+        accepted_and_revoked: 受諾と取り消しを同時にはできません
+        dependent_missing_column: 従属アクセスには depends_on_recording_id 列が必要です
+        dependent_missing_manager: 管理側のアクセスがないか無効です
+        dependent_not_same_root: 管理者は同じルート上のアクセスである必要があります
+        dependent_role_exceeds: 従属の役割は管理側の役割を超えられません
+        dependent_unranked_role: 従属アクセスには順位付きの役割が必要です
+        dependent_cycle: 従属アクセスは自分自身や循環に依存できません
+      mailers:
+        someone: だれか
+        hello: "%{email} さん、こんにちは。"
+        hello_there: こんにちは。
+        invitation:
+          subject: 招待が届きました
+          subject_with_recording: "%{recording} への招待が届きました"
+          body: "%{inviter} さんから %{recording} の %{role} アクセスへの招待です。"
+          body_without_recording: "%{inviter} さんから %{role} アクセスへの招待です。"
+          body_html: "%{inviter} さんから %{recording} の <strong>%{role}</strong> アクセスへの招待です。"
+          body_html_without_recording: "%{inviter} さんから <strong>%{role}</strong> アクセスへの招待です。"
+          accept: 招待を受け取る
+          accept_with_url: '招待を受け取る: %{url}'
+        granted:
+          subject: アクセスが付与されました
+          subject_with_recording: "%{recording} へのアクセスが付与されました"
+          body: "%{granter} さんから %{recording} の %{role} アクセスが付与されました。"
+          body_without_recording: "%{granter} さんから %{role} アクセスが付与されました。"
+          body_html: "%{granter} さんから %{recording} の <strong>%{role}</strong> アクセスが付与されました。"
+          body_html_without_recording: "%{granter} さんから <strong>%{role}</strong> アクセスが付与されました。"
+          open: 共有された対象を開く
+          open_with_url: '共有された対象を開く: %{url}'
+      actor_access_points:
+        title: "%{actor} のアクセスポイント"
+        workspace: 'ワークスペース: %{name}'
+        columns:
+          access_point: アクセスポイント
+          role: 役割
+          access_recording: アクセス記録
+        empty_title: アクセス記録はありません
+        empty_subtitle: "%{actor_type} にはこのワークスペースの直接アクセス記録がありません"
+      home:
+        index:
+          title: Recording Studio Accessible デモ
+          subtitle: 任意のアクセス制御アドオン
+          snapshot_title: アクセス確認のスナップショット
+          snapshot_subtitle: シード済みワークスペースでのアクセスの動き
+          integration_mode: '連携モード:'
+          workspace: 'ワークスペース:'
+          root_recording: 'ルート記録:'
+          not_available: 利用不可
+        overview:
+          title: 概要
+          subtitle: アクセスの組み立て方
+          add_access_title: なにかにアクセスを足す
+          add_access_subtitle: アクセスは、access レコードを子として追加することで付与します。
+        methods:
+          title: メソッド
+          subtitle: この gem が提供するアクセス API
+        user_invites:
+          title: ユーザー招待
+          subtitle: アクセス付与時に見つからないメールをどう扱うか
+          missing_user_title: ユーザーが見つからないとき
+          default_badge: 既定
+          default_body: 何もしなければ、未知のメールは未解決のままです。アクセス画面は AccessInvitation を保存して招待を送ります。ユーザーは作りません。
+          dummy_badge: ダミーアプリ
+          dummy_body: このダミーアプリは、サインアップ画面がユーザーを作り招待を受諾するまで、招待を残します。
+          statuses_title: 返せるステータス
+          setup_patterns_title: 設定の型
+          setup_patterns_subtitle: ホストが次にすべきことに合わせて、ハンドラの形を一つ選びます
+        email_template:
+          title: メールのひな形
+          subtitle: アクセス付与時に送る既定メッセージ
+          message_details_title: メッセージ詳細
+          message_details_subtitle: 既定メーラーが使うヘッダー
+          html_preview_title: HTML プレビュー
+          html_preview_subtitle: 既定の HTML メールテンプレートからの描画
+          html_preview_iframe: HTML メールのプレビュー
+          text_preview_title: テキストプレビュー
+          text_preview_subtitle: 既定メールテンプレートのプレーンテキスト用の控え

@@ -134,6 +134,14 @@ fr:
     presskits:
       index:
         title: Salle de presse
+    root_switchable:
+      layout:
+        title: Recording Studio
+        application_name: Recording Studio
+      navigation:
+        close: Fermer
+      dropdown:
+        none_selected: Aucune sélection
     accessible:
       layout:
         title: Recording Studio Accessible

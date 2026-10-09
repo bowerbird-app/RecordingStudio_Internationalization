@@ -122,6 +122,14 @@ ja:
     presskits:
       index:
         title: プレスキット
+    root_switchable:
+      layout:
+        title: Recording Studio
+        application_name: Recording Studio
+      navigation:
+        close: 閉じる
+      dropdown:
+        none_selected: 未選択
     accessible:
       layout:
         title: Recording Studio Accessible

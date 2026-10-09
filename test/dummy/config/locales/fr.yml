@@ -101,6 +101,13 @@ fr:
       signed_out: "Déconnecté(e)."
       already_signed_out: "Déconnecté(e)."
   recording_studio:
+    core:
+      navigation:
+        back: "Retour"
+        go_back: "Retour"
+        close: "Fermer"
+        page: "Navigation de page"
+        action_page: "Navigation de la page d'action"
     internationalization:
       selector:
         label: "Langue"

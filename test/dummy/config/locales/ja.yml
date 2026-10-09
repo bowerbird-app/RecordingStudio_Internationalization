@@ -101,6 +101,13 @@ ja:
       signed_out: "ログアウトしました。"
       already_signed_out: "ログアウトしました。"
   recording_studio:
+    core:
+      navigation:
+        back: "戻る"
+        go_back: "戻る"
+        close: "閉じる"
+        page: "ページナビゲーション"
+        action_page: "アクションページのナビゲーション"
     internationalization:
       selector:
         label: "言語"

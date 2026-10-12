@@ -4,8 +4,8 @@
 
 - Ruby 3.3 or newer
 - Rails 8.1 or newer
-- Recording Studio 4.x (`~> 4.2` in the gemspec; dummy GitHub tag `v4.2.2`)
-- Accessible dummy tag `v0.10.1` and Root Switchable dummy tag `v0.5.1`
+- Recording Studio 4.x (`~> 4.2` in the gemspec; dummy GitHub tag `v4.4.0`)
+- Accessible dummy tag `v0.13.0`, Root Switchable dummy tag `v0.8.0`, and Metrics dummy tag `v0.2.0` (required by Root Switchable >= 0.7)
 - FlatPack dummy tag `v0.1.196`
 - Public RubyGems and GitHub access for dependency installation
 

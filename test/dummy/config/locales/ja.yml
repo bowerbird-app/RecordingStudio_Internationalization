@@ -130,6 +130,18 @@ ja:
         close: 閉じる
       dropdown:
         none_selected: 未選択
+      page_copy:
+        title: 切り替え
+        subtitle: ""
+        scope_heading: スコープ
+        roots_heading: 利用可能
+        current_selection_label: 現在の選択
+        device_label: デバイスキー
+        persistence_hint: ""
+        selected_badge: 現在
+        switch_action_label: 切り替え
+        empty_state_title: 切り替えできるものがありません
+        empty_state_body: いま選べるオプションはありません。
     accessible:
       layout:
         title: Recording Studio Accessible

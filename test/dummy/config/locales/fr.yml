@@ -118,6 +118,8 @@ fr:
       already_signed_out: Déconnecté(e).
   recording_studio:
     core:
+      labels:
+        empty: "—"
       navigation:
         back: Retour
         go_back: Retour

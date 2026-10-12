@@ -238,6 +238,27 @@ ja:
         dependent_role_exceeds: 従属の役割は管理側の役割を超えられません
         dependent_unranked_role: 従属アクセスには順位付きの役割が必要です
         dependent_cycle: 従属アクセスは自分自身や循環に依存できません
+        create_via_grant_access: アクセス付与は RecordingStudioAccessible.grant_access 経由で作成してください
+        duplicate_access_recording: 同じ親の下では、アクターごとに直接アクセスは一つだけです
+        access_children_not_allowed: RecordingStudio::Access の子は許可されていません
+        duplicate_audience_recording: 同じ親の下では、アクションごとに有効なオーディエンス設定は一つだけです
+        audience_children_not_allowed: "%{type} の子は許可されていません"
+        audience_constraint_create_not_root: オーディエンス制限はワークスペースにだけ追加できます
+        already_bootstrapped: アクセスはすでにあります。manager_actor 付きの grant_access を使ってください
+        bootstrap_unsupported: ブートストラップは、空の所有ルート、または共有ルート下の空のアクセス可能子にだけ許可されます
+        recording_not_persisted: 記録は永続化されている必要があります
+        actor_not_persisted: アクターは永続化されている必要があります
+        repair_manager_required: 修復には GlobalID 付きの永続化された管理アクターが必要です
+        repair_failed: 一部の重複アクセス付与を修復できませんでした
+        audience_unauthorized: だれができるかを変更する権限がありません
+        audience_not_allowed: その選択はここでは使えません
+        audience_action_invalid: アクションは必須です
+        audience_action_not_configured: このアクションにはオーディエンス設定がありません
+        audience_root_required: ワークスペースが必要です
+        audience_constraint_not_root: オーディエンス制限はワークスペースにだけ設定できます
+        audience_constraint_unauthorized: ワークスペースのだれができるかを制限する権限がありません
+        audience_constraint_not_narrower: ワークスペースはアプリがすでに許しているオーディエンスを狭めることだけできます
+        audience_not_enabled: この対象ではオーディエンス設定が有効ではありません
       mailers:
         someone: だれか
         hello: "%{email} さん、こんにちは。"
@@ -279,6 +300,9 @@ ja:
           workspace: 'ワークスペース:'
           root_recording: 'ルート記録:'
           not_available: 利用不可
+          admin_fallback: 管理
+          viewer_fallback: 閲覧者
+          anonymous: 匿名
         overview:
           title: 概要
           subtitle: アクセスの組み立て方
@@ -287,6 +311,15 @@ ja:
         methods:
           title: メソッド
           subtitle: この gem が提供するアクセス API
+          bootstrap_title: RecordingStudioAccessible.bootstrap_owner_access! で最初の所有者をブートストラップ
+          grant_title: RecordingStudioAccessible.grant_access でアクセスを付与
+          role_for_title: RecordingStudioAccessible.role_for でユーザーの役割を解決
+          authorized_title: RecordingStudioAccessible.authorized? で認可を確認
+          root_recordings_title: RecordingStudioAccessible.root_recordings_for でアクセス可能なルートを一覧
+          root_recording_ids_title: RecordingStudioAccessible.root_recording_ids_for
+            でアクセス可能なルート ID を一覧
+          access_recordings_title: RecordingStudioAccessible.access_recordings_for
+            で記録上の直接付与を一覧
         user_invites:
           title: ユーザー招待
           subtitle: アクセス付与時に見つからないメールをどう扱うか
@@ -298,6 +331,20 @@ ja:
           statuses_title: 返せるステータス
           setup_patterns_title: 設定の型
           setup_patterns_subtitle: ホストが次にすべきことに合わせて、ハンドラの形を一つ選びます
+          statuses:
+            unresolved: メールに一致するアクターがないときの既定。アクセス画面は招待を保存して送ります。
+            found: 送信されたメールから既存のアクターが解決されたので、アクセス付与をすぐ続けられます。
+            created: 同じ付与リクエストについて、アプリが宛先を確認し必要な準備を終えたあとにだけ使います。
+            invited: 別の招待フローがすでに招待を送ったときに使います。アドオンは何も保存せず、お知らせ付きで管理者をアクセス一覧へ戻します。
+            requires_resolution: アクセスを付与する前に、カスタムのユーザー作成画面など準備フローへ管理者をリダイレクトします。
+            invalid: 送信されたメールは使えませんでした。返されたエラーメッセージ付きでフォームを再表示します。
+          setup:
+            find_existing_title: 既存ユーザーだけを探す
+            find_existing_body: すでに存在するユーザーにだけアクセスを付与すべきときは、リゾルバを使います。
+            block_until_trusted_title: 信頼できるフローがメールを解決するまでフォームを止める
+            block_until_trusted_body: そのアドレスの招待・承認・確認が終わるまで、エラーを返す方がよいです。
+            redirect_resolution_title: 管理者を解決フローへ送る
+            redirect_resolution_body: 付与の前に追加の準備や承認、より詳しい招待フローが必要なときは、リダイレクト型の解決を返します。
         email_template:
           title: メールのひな形
           subtitle: アクセス付与時に送る既定メッセージ
@@ -308,3 +355,20 @@ ja:
           html_preview_iframe: HTML メールのプレビュー
           text_preview_title: テキストプレビュー
           text_preview_subtitle: 既定メールテンプレートのプレーンテキスト用の控え
+      audiences:
+        public: だれでも
+        signed_in: ログイン済み
+        granted: アクセスできる人
+      recordables:
+        access:
+          label: アクセス
+          name: 'アクセス: %{role} — %{actor}'
+        access_rule:
+          label: オーディエンス
+          name: 'オーディエンス: %{action} — %{audience}'
+          write_error: オーディエンスは RecordingStudioAccessible.set_audience! 経由で作成してください
+        access_constraint:
+          label: オーディエンス制限
+          name: 'オーディエンス制限: %{action} — %{audiences}'
+          write_error: オーディエンス制限は RecordingStudioAccessible.set_audience_constraint!
+            経由で作成してください

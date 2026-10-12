@@ -254,6 +254,37 @@ fr:
         dependent_unranked_role: Un accès dépendant nécessite un rôle classé
         dependent_cycle: Un accès dépendant ne peut pas dépendre de lui-même ni former
           un cycle
+        create_via_grant_access: Créez les accès via RecordingStudioAccessible.grant_access
+        duplicate_access_recording: Un seul accès direct est autorisé par acteur sous
+          le même parent
+        access_children_not_allowed: n’autorise pas les enfants RecordingStudio::Access
+        duplicate_audience_recording: Un seul réglage d’audience actif est autorisé
+          par action sous le même parent
+        audience_children_not_allowed: n’autorise pas les enfants %{type}
+        audience_constraint_create_not_root: Les limites d’audience ne peuvent être
+          ajoutées que sur un espace de travail
+        already_bootstrapped: Un accès existe déjà ; utilisez grant_access avec un
+          manager_actor
+        bootstrap_unsupported: Le bootstrap n’est autorisé que sur une racine détenue
+          vide ou un enfant accessible vide sous une racine partagée
+        recording_not_persisted: L’enregistrement doit être persisté
+        actor_not_persisted: L’acteur doit être persisté
+        repair_manager_required: Un acteur gestionnaire persisté avec un GlobalID
+          est requis pour la réparation
+        repair_failed: Certains accès en double n’ont pas pu être réparés
+        audience_unauthorized: Vous ne pouvez pas changer qui peut faire ça
+        audience_not_allowed: Ce choix n’est pas disponible ici
+        audience_action_invalid: L’action est obligatoire
+        audience_action_not_configured: Cette action n’a pas de réglage d’audience
+        audience_root_required: Un espace de travail est obligatoire
+        audience_constraint_not_root: Les limites d’audience ne peuvent être définies
+          que sur un espace de travail
+        audience_constraint_unauthorized: Vous ne pouvez pas limiter qui peut faire
+          ça pour l’espace de travail
+        audience_constraint_not_narrower: Un espace de travail ne peut que restreindre
+          les audiences déjà autorisées par l’appli
+        audience_not_enabled: Les réglages d’audience ne sont pas activés pour cet
+          élément
       mailers:
         someone: Quelqu’un
         hello: Bonjour %{email},
@@ -298,6 +329,9 @@ fr:
           workspace: 'Espace de travail :'
           root_recording: 'Enregistrement racine :'
           not_available: Non disponible
+          admin_fallback: Admin
+          viewer_fallback: Lecteur
+          anonymous: Anonyme
         overview:
           title: Aperçu
           subtitle: Comment l’accès est structuré
@@ -307,6 +341,14 @@ fr:
         methods:
           title: Méthodes
           subtitle: API d’accès fournies par ce gem
+          bootstrap_title: Amorcer le premier propriétaire avec RecordingStudioAccessible.bootstrap_owner_access!
+          grant_title: Accorder un accès avec RecordingStudioAccessible.grant_access
+          role_for_title: Résoudre le rôle d’un utilisateur avec RecordingStudioAccessible.role_for
+          authorized_title: Vérifier l’autorisation avec RecordingStudioAccessible.authorized?
+          root_recordings_title: Lister les racines accessibles avec RecordingStudioAccessible.root_recordings_for
+          root_recording_ids_title: Lister les ids de racines accessibles avec RecordingStudioAccessible.root_recording_ids_for
+          access_recordings_title: Lister les octrois directs sur un enregistrement
+            avec RecordingStudioAccessible.access_recordings_for
         user_invites:
           title: Invitations utilisateur
           subtitle: Comment les e-mails manquants sont résolus lors des octrois d’accès
@@ -322,6 +364,33 @@ fr:
           setup_patterns_title: Modèles de configuration
           setup_patterns_subtitle: Choisissez une forme de gestionnaire selon ce que
             votre app hôte doit faire ensuite
+          statuses:
+            unresolved: Valeur par défaut quand aucun acteur ne correspond à l’e-mail.
+              La page d’accès enregistre une invitation et l’envoie.
+            found: Un acteur existant a été résolu à partir de l’e-mail soumis, donc
+              l’octroi d’accès peut continuer immédiatement.
+            created: À utiliser seulement après que votre app a vérifié le destinataire
+              et terminé toute configuration nécessaire pour la même demande d’octroi.
+            invited: À utiliser quand un autre flux d’invitation a déjà envoyé l’invitation.
+              L’addon ne stocke rien et renvoie le gestionnaire à la liste d’accès
+              avec un avis.
+            requires_resolution: Rediriger le gestionnaire vers un flux de configuration,
+              comme un écran de création d’utilisateur, avant d’accorder l’accès.
+            invalid: L’e-mail soumis n’a pas pu être utilisé. Le formulaire se réaffiche
+              avec le message d’erreur renvoyé.
+          setup:
+            find_existing_title: Ne trouver que les utilisateurs existants
+            find_existing_body: Utilisez le résolveur lorsque votre app ne doit accorder
+              l’accès qu’aux utilisateurs déjà présents.
+            block_until_trusted_title: Bloquer le formulaire jusqu’à ce qu’un flux
+              de confiance résolve l’e-mail
+            block_until_trusted_body: Préférez renvoyer une erreur jusqu’à ce que
+              votre app termine toute invitation, approbation ou vérification pour
+              cette adresse.
+            redirect_resolution_title: Envoyer les gestionnaires vers un flux de résolution
+            redirect_resolution_body: Renvoyez une résolution de type redirection
+              lorsqu’une personne a besoin d’une configuration supplémentaire, d’approbations
+              ou d’un flux d’invitation plus riche avant que l’octroi continue.
         email_template:
           title: Modèle d’e-mail
           subtitle: Message par défaut envoyé lorsque l’accès est accordé
@@ -333,3 +402,19 @@ fr:
           text_preview_title: Aperçu texte
           text_preview_subtitle: Repli en texte brut depuis le modèle d’e-mail par
             défaut
+      audiences:
+        public: Tout le monde
+        signed_in: Connecté
+        granted: Les personnes avec accès
+      recordables:
+        access:
+          label: Accès
+          name: 'Accès : %{role} — %{actor}'
+        access_rule:
+          label: Audience
+          name: 'Audience : %{action} — %{audience}'
+          write_error: Créez les audiences via RecordingStudioAccessible.set_audience!
+        access_constraint:
+          label: Limite d’audience
+          name: 'Limite d’audience : %{action} — %{audiences}'
+          write_error: Créez les limites d’audience via RecordingStudioAccessible.set_audience_constraint!

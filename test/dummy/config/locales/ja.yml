@@ -105,6 +105,8 @@ ja:
       already_signed_out: ログアウトしました。
   recording_studio:
     core:
+      labels:
+        empty: "—"
       navigation:
         back: 戻る
         go_back: 戻る

@@ -5,7 +5,7 @@ require "yaml"
 
 class RecordingStudioInternationalizationTest < Minitest::Test
   def test_version_matches_release
-    assert_equal "0.1.7", ::RecordingStudioInternationalization::VERSION
+    assert_equal "0.1.8", ::RecordingStudioInternationalization::VERSION
   end
 
   def test_engine_exists
@@ -25,10 +25,10 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     assert_empty packaged
   end
 
-  def test_gemspec_pins_recording_studio_4_2
+  def test_gemspec_allows_recording_studio_6_x
     gemspec = File.read(File.expand_path("../recording_studio_internationalization.gemspec", __dir__))
 
-    assert_includes gemspec, 'spec.add_dependency "recording_studio", "~> 4.2"'
+    assert_includes gemspec, 'spec.add_dependency "recording_studio", ">= 4.2", "< 7"'
   end
 
   def test_gemspec_leaves_the_users_gem_optional

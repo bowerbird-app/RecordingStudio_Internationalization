@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.8] - 2026-10-27
+
+Widened the `recording_studio` runtime constraint so hosts and sibling gems on 6.x, including 6.1.0, can resolve this gem.
+
+### Changed
+
+- `recording_studio` dependency is now `>= 4.2, < 7` (was `~> 4.2`). 4.x and 5.x still resolve; 6.x is allowed.
+
+### Upgrade notes
+
+- No migration and no configuration change. Hosts already on Recording Studio 4.x or 5.x are unchanged. Hosts on 6.x can now bundle this gem.
+
 ## [0.1.2] - 2026-10-07
 
 The dummy app now translates its own chrome. Switching English, French, or Japanese updates titles, card headings, Sign out, and the sign-in form, not only the sample gem strings.

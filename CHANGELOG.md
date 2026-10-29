@@ -5,9 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.9] - 2026-10-29
+## [0.2.0] - 2026-10-29
 
-Removed the unused `config.hooks.extend_model` / `extend_controller` API. The install generator no longer writes FlatPack Tailwind sources. Dummy docs label recordings with Recording Studio's helpers, and the dummy pins move to current sibling tags.
+Removed the unused `config.hooks.extend_model` / `extend_controller` API. The install generator no longer writes FlatPack Tailwind sources. This release requires Recording Studio 6.1 or newer. Dummy docs label recordings with Recording Studio's helpers, and the dummy pins move to current sibling tags.
+
+### Breaking
+
+- Requires `recording_studio` `>= 6.1, < 7`. Recording Studio 4.x and 5.x no longer resolve.
 
 ### Removed
 
@@ -26,8 +30,9 @@ Removed the unused `config.hooks.extend_model` / `extend_controller` API. The in
 
 - No migration.
 - Delete any `config.hooks.extend_model` or `config.hooks.extend_controller` blocks registered on this gem. They no longer run. Use Recording Studio for model and controller extension.
-- Hosts that relied on this generator for FlatPack Tailwind sources should run `bin/rails generate flat_pack:install`.
-- The published gemspec is unchanged. The pin list above is the dummy app and its lockfile.
+- Requires `recording_studio` `>= 6.1, < 7`.
+- Before you run `bin/rails generate flat_pack:install`, remove the old FlatPack `@source` lines from the host's Tailwind file. This generator used to write those lines. FlatPack's installer writes its own sources, and leftover lines should not stay beside them.
+- The pin list above is the dummy app and its lockfile. The root Gemfile pins Recording Studio `v6.3.0` for the gem suite.
 
 ## [0.1.8] - 2026-10-27
 

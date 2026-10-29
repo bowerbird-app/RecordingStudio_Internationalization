@@ -5,7 +5,7 @@ require "yaml"
 
 class RecordingStudioInternationalizationTest < Minitest::Test
   def test_version_matches_release
-    assert_equal "0.1.9", ::RecordingStudioInternationalization::VERSION
+    assert_equal "0.2.0", ::RecordingStudioInternationalization::VERSION
   end
 
   def test_engine_exists
@@ -25,10 +25,14 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     assert_empty packaged
   end
 
-  def test_gemspec_allows_recording_studio_6_x
+  def test_gemspec_requires_recording_studio_6_1
     gemspec = File.read(File.expand_path("../recording_studio_internationalization.gemspec", __dir__))
+    root_gemfile = File.read(File.expand_path("../Gemfile", __dir__))
 
-    assert_includes gemspec, 'spec.add_dependency "recording_studio", ">= 4.2", "< 7"'
+    assert_includes gemspec, 'spec.add_dependency "recording_studio", ">= 6.1", "< 7"'
+    refute_includes gemspec, '">= 4.2"'
+    assert_includes root_gemfile, 'github: "bowerbird-app/RecordingStudio", tag: "v6.3.0"'
+    refute_includes root_gemfile, 'tag: "v4.7.0"'
   end
 
   def test_gemspec_leaves_the_users_gem_optional

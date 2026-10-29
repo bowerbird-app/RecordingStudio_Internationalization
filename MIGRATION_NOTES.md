@@ -4,7 +4,7 @@
 
 - Ruby 3.3 or newer
 - Rails 8.1 or newer
-- Recording Studio 4.x through 6.x (`>= 4.2, < 7` in the gemspec; dummy GitHub tag `v6.3.0`)
+- Recording Studio 6.1 or newer, below 7 (`>= 6.1, < 7` in the gemspec; root and dummy GitHub tag `v6.3.0`)
 - Accessible dummy tag `v0.23.1`, Trashable dummy tag `v0.12.0` (`require: false`; required by Accessible), Root Switchable dummy tag `v0.11.2`, Metrics dummy tag `v0.7.0`, and Cache dummy tag `v0.6.0`
 - FlatPack dummy tag `v0.1.329` and `view_component` `4.19.0`
 - Users dummy tag `v0.26.5` (`require: false`), Admin dummy tag `v2.5.1` (`require: false`, so the bundle does not pull Logs), and Attachable dummy tag `v0.22.0` (`require: false`)

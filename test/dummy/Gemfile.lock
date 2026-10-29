@@ -120,9 +120,9 @@ GIT
 PATH
   remote: ../..
   specs:
-    recording_studio_internationalization (0.1.9)
+    recording_studio_internationalization (0.2.0)
       rails (~> 8.1.0)
-      recording_studio (>= 4.2, < 7)
+      recording_studio (>= 6.1, < 7)
 
 GEM
   remote: https://rubygems.org/
@@ -779,7 +779,7 @@ CHECKSUMS
   recording_studio_admin (2.5.1)
   recording_studio_attachable (0.22.0)
   recording_studio_cache (0.6.0)
-  recording_studio_internationalization (0.1.9)
+  recording_studio_internationalization (0.2.0)
   recording_studio_metrics (0.7.0)
   recording_studio_root_switchable (0.11.2)
   recording_studio_trashable (0.12.0)

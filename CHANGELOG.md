@@ -13,6 +13,7 @@ Lockfile-only security bumps for `net-ssh` and `crass`. This version assumes 0.1
 
 - `net-ssh` 7.3.3 → 7.3.5 in `test/dummy/Gemfile.lock` (lowest release that clears the current ruby-advisory-db GHSAs; Kamal stays on `~> 7.3`).
 - `crass` 1.0.7 → 1.0.8 in `Gemfile.lock` and `test/dummy/Gemfile.lock` (lowest release that clears GHSA-pq4g-8rxf-4g29).
+- Bundler Audit ignores GHSA-8qw7-6phv-7q6p. Dummy FlatPack `v0.1.196` requires `view_component ~> 4.12.0`, and the patched release is `4.14.0`.
 
 ### Upgrade notes
 

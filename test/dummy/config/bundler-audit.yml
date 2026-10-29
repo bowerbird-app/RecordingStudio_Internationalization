@@ -3,3 +3,5 @@
 
 ignore:
   - CVE-THAT-DOES-NOT-APPLY
+  # flat_pack 0.1.196 requires view_component ~> 4.12.0. The fix is in 4.14.0, which that pin cannot install.
+  - GHSA-8qw7-6phv-7q6p

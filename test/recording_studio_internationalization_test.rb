@@ -78,7 +78,7 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_users", tag: "v0.26.5"'
     assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_admin", tag: "v2.5.1"'
     assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_attachable", tag: "v0.22.0"'
-    assert_includes gemfile, 'gem "view_component", "4.19.0"'
+    refute_includes gemfile, 'gem "view_component"'
     refute_includes gemfile, 'tag: "v4.7.0"'
     refute_includes gemfile, 'tag: "v0.9.0"'
     refute_includes gemfile, 'tag: "v0.1.196"'

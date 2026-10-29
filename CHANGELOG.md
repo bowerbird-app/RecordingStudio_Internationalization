@@ -20,6 +20,7 @@ Removed the unused `config.hooks.extend_model` / `extend_controller` API. The in
 - Dummy Gemfile pins: Recording Studio `v6.3.0`, Accessible `v0.23.1`, Trashable `v0.12.0`, Root Switchable `v0.11.2`, Metrics `v0.7.0`, Cache `v0.6.0`, FlatPack `v0.1.329`, view_component `4.19.0`, Users `v0.26.5` (`require: false`), Admin `v2.5.1` (`require: false`), Attachable `v0.22.0` (`require: false`).
 - The dummy shell uses `recording_studio_layout` and FlatPack cards use `background`, `border`, and `shadow`. Recording Studio 6 dropped `UsesDefaultLayout`, and FlatPack 0.1.329 rejects `Card` `style:`.
 - Coverage reports are no longer tracked.
+- Lockfiles take the lowest patched `crass` (`1.0.7` → `1.0.8`) and, in the dummy lock, `net-ssh` (`7.3.3` → `7.3.5`). The security workflow audits this branch's dummy lock, so those two gems cannot stay on the vulnerable releases.
 
 ### Upgrade notes
 

@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.10] - 2026-10-29
+
+Lockfile-only security bumps for `net-ssh` and `crass`. This version assumes 0.1.9 has not merged. If the 0.1.9 audit PR lands first, rebase this branch and keep a single version bump above whatever is on main.
+
+### Changed
+
+- `net-ssh` 7.3.3 → 7.3.5 in `test/dummy/Gemfile.lock` (lowest release that clears the current ruby-advisory-db GHSAs; Kamal stays on `~> 7.3`).
+- `crass` 1.0.7 → 1.0.8 in `Gemfile.lock` and `test/dummy/Gemfile.lock` (lowest release that clears GHSA-pq4g-8rxf-4g29).
+
+### Upgrade notes
+
+- No migration and no application code change. Rebundle so the lockfile versions above are what install.
+- Do not tag this until it is rebased onto main if 0.1.9 merges first. The two pull requests both edit `version.rb`, `CHANGELOG.md`, and `Gemfile.lock`.
+
 ## [0.1.8] - 2026-10-27
 
 Widened the `recording_studio` runtime constraint so hosts and sibling gems on 6.x, including 6.1.0, can resolve this gem.

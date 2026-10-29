@@ -5,7 +5,7 @@ require "yaml"
 
 class RecordingStudioInternationalizationTest < Minitest::Test
   def test_version_matches_release
-    assert_equal "0.1.8", ::RecordingStudioInternationalization::VERSION
+    assert_equal "0.1.10", ::RecordingStudioInternationalization::VERSION
   end
 
   def test_engine_exists

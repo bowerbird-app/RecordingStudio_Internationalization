@@ -73,38 +73,13 @@ end
 
 ## Extending Models
 
-Add associations, validations, or methods to engine models:
-
-```ruby
-GemTemplate.configure do |config|
-  config.hooks.extend_model :Example do
-    include Auditable
-    
-    belongs_to :organization
-    validates :organization, presence: true
-    
-    def custom_method
-      # Your logic here
-    end
-  end
-end
-```
+This gem does not apply `config.hooks.extend_model`. Recording Studio owns model extension. A block registered here does not run.
 
 ---
 
 ## Extending Controllers
 
-Add before_actions, concerns, or methods to engine controllers:
-
-```ruby
-GemTemplate.configure do |config|
-  config.hooks.extend_controller :HomeController do
-    before_action :authenticate_user!
-    
-    include YourConcern
-  end
-end
-```
+This gem does not apply `config.hooks.extend_controller`. Recording Studio owns controller extension. A block registered here does not run.
 
 ---
 
@@ -262,8 +237,8 @@ end
 
 | Component | Extension Method |
 |-----------|------------------|
-| Models | `config.hooks.extend_model :ModelName` |
-| Controllers | `config.hooks.extend_controller :ControllerName` |
+| Models | Not applied. `config.hooks.extend_model` does not run in this gem. |
+| Controllers | Not applied. `config.hooks.extend_controller` does not run in this gem. |
 | Services | `before_service`, `after_service`, `around_service` |
 | Views | `content_for` blocks, partial overrides |
 | Lifecycle | `before_initialize`, `after_initialize` |

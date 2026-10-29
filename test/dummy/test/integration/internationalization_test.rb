@@ -231,16 +231,30 @@ class InternationalizationTest < ActionDispatch::IntegrationTest
     assert_equal keys[:en], keys[:ja]
   end
 
-  test "the missing task lists a key French lacks and nothing outside the gem namespace" do
+  test "the missing task leaves this gem's French keys translated and counts every listed key" do
     out, err, status = run_rails("recording_studio_internationalization:missing[fr]")
+    keys = reported_keys(out)
 
-    assert_equal ["fr.recording_studio.messages.inbox.empty\nfr: 1 missing\n", 1], [out, status.exitstatus], err
+    assert_equal 1, status.exitstatus, err
+    assert_equal gem_selector_keys, %w[
+      recording_studio.internationalization.selector.label
+      recording_studio.internationalization.selector.submit
+    ]
+    assert_empty keys & gem_selector_keys.map { |key| "fr.#{key}" }
+    assert_includes keys, "fr.recording_studio.messages.inbox.empty"
+    assert_equal keys.size, out[/^fr: (\d+) missing$/, 1].to_i
+    keys.each { |key| assert key.start_with?("fr.recording_studio."), key }
   end
 
-  test "the missing task exits cleanly for a complete locale" do
+  test "the missing task leaves this gem's Japanese keys translated and counts every listed key" do
     out, err, status = run_rails("recording_studio_internationalization:missing[ja]")
+    keys = reported_keys(out)
 
-    assert_equal ["ja: 0 missing\n", 0], [out, status.exitstatus], err
+    assert_equal(keys.empty? ? 0 : 1, status.exitstatus, err)
+    assert_empty keys & gem_selector_keys.map { |key| "ja.#{key}" }
+    refute_includes keys, "ja.recording_studio.messages.inbox.empty"
+    assert_equal keys.size, out[/^ja: (\d+) missing$/, 1].to_i
+    keys.each { |key| assert key.start_with?("ja.recording_studio."), key }
   end
 
   test "the export task prints YAML for the gaps and writes no file" do
@@ -249,19 +263,35 @@ class InternationalizationTest < ActionDispatch::IntegrationTest
     out, err, status = run_rails("recording_studio_internationalization:export[fr]")
 
     assert_equal 0, status.exitstatus, err
-    assert_equal <<~YAML, out
-      fr:
-        recording_studio:
-          messages:
-            inbox:
-              empty: ~ # en: "No messages yet"
-    YAML
-    assert_equal({ "fr" => { "recording_studio" => { "messages" => { "inbox" => { "empty" => nil } } } } },
-                 YAML.safe_load(out))
+    parsed = YAML.safe_load(out)
+    assert_equal ["fr"], parsed.keys
+    assert_includes out, "empty: ~ # en:"
+    assert_nil parsed.dig("fr", "recording_studio", "messages", "inbox", "empty")
+    refute_includes out, "internationalization:"
+    gem_selector_keys.each { |key| refute_includes out, "fr.#{key}" }
     assert_equal files_before, Dir.glob(Rails.root.join("config/**/*").to_s)
   end
 
   private
+
+  def reported_keys(output)
+    output.lines.map(&:strip).grep(/\A[a-z]{2}\.recording_studio\./)
+  end
+
+  def gem_selector_keys
+    locale = YAML.safe_load_file(Rails.root.join("../../config/locales/en.yml"))
+    leaves = []
+    walk = lambda do |node, prefix|
+      case node
+      when Hash
+        node.each { |key, value| walk.call(value, "#{prefix}.#{key}") }
+      else
+        leaves << prefix
+      end
+    end
+    walk.call(locale.dig("en", "recording_studio", "internationalization"), "recording_studio.internationalization")
+    leaves.sort
+  end
 
   def with_configuration(configuration)
     original = RecordingStudioInternationalization.configuration

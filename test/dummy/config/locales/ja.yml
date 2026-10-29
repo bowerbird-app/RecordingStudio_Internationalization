@@ -90,9 +90,10 @@ ja:
         engine: gem エンジン
       methods:
         title: メソッド
-        subtitle: アドオンが公開するメソッドを書いてください。
-        example: メソッドの例
-        hint: メソッドごとにセクション見出しとコードブロックを用意してください
+        subtitle: 名前と種類の表示は Recording Studio に任せる。
+        name: 名前
+        type: 種類
+        hint: 手元でラベルを作らず、これらのメソッドを呼ぶ。
   devise:
     failure:
       already_authenticated: すでにログインしています。

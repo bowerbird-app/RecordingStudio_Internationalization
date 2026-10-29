@@ -8,6 +8,8 @@ Interface text and user-created content are separate. This gem translates button
 
 ## Install
 
+Requires Recording Studio `>= 6.1, < 7`.
+
 Add the gem and mount the engine.
 
 ```ruby
@@ -17,6 +19,8 @@ gem "recording_studio_internationalization", github: "bowerbird-app/RecordingStu
 ```bash
 bin/rails generate recording_studio_internationalization:install
 ```
+
+Before you run `bin/rails generate flat_pack:install`, remove the old FlatPack `@source` lines from the host's Tailwind file. This generator used to write those lines. FlatPack's installer writes its own sources.
 
 The generator mounts the engine and writes `config/initializers/recording_studio_internationalization.rb`. An application that does nothing else runs in English.
 

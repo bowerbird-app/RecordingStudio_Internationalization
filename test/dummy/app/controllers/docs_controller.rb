@@ -17,10 +17,12 @@ class DocsController < ApplicationController
   end
 
   def recordings_tree
-    recordings = RecordingStudio::Recording.includes(:recordable).reorder(:created_at, :id).to_a
+    root_recording = current_root_recording
+    recordings = recordings_for_root(root_recording)
     recordings_by_parent_id = recordings.group_by(&:parent_recording_id)
+    visible_root = recordings.find { |recording| recording.id == root_recording&.id }
 
-    @recording_tree = recordings_by_parent_id.fetch(nil, []).map do |recording|
+    @recording_tree = Array(visible_root).map do |recording|
       build_recording_node(recording, recordings_by_parent_id)
     end
   end
@@ -60,6 +62,15 @@ class DocsController < ApplicationController
     0
   end
 
+  def recordings_for_root(root_recording)
+    return [] if root_recording.nil?
+
+    RecordingStudio::Recording.includes(:recordable)
+      .where(root_recording_id: root_recording.id)
+      .reorder(:created_at, :id)
+      .to_a
+  end
+
   def build_recording_node(recording, recordings_by_parent_id)
     {
       label: recording_label(recording),
@@ -70,34 +81,8 @@ class DocsController < ApplicationController
   end
 
   def recording_label(recording)
-    type_label = recording.recordable_type.to_s.demodulize.underscore.humanize
-    identifier = recordable_identifier(recording.recordable)
-
-    "#{type_label}: #{identifier}"
-  end
-
-  def recordable_identifier(recordable)
-    return "Unknown recordable" if recordable.nil?
-
-    %i[name title email label slug identifier].each do |attribute|
-      next unless recordable.respond_to?(attribute)
-
-      value = recordable.public_send(attribute)
-      return value if value.present?
-    end
-
-    actor = recordable.actor if recordable.respond_to?(:actor)
-    actor_email = actor.email if actor&.respond_to?(:email) && actor.email.present?
-
-    if recordable.respond_to?(:role) && recordable.role.present? && actor_email.present?
-      return "#{recordable.role.to_s.humanize} for #{actor_email}"
-    end
-
-    return recordable.role.to_s.humanize if recordable.respond_to?(:role) && recordable.role.present?
-
-    return recordable.minimum_role.to_s.humanize if recordable.respond_to?(:minimum_role) &&
-      recordable.minimum_role.present?
-
-    "##{recordable.id}"
+    recordable = recording.recordable
+    type_label = RecordingStudio.recordable_type_label(recordable || recording.recordable_type)
+    "#{type_label}: #{RecordingStudio.recordable_name(recordable)}"
   end
 end

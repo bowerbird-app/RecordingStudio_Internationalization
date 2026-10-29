@@ -4,9 +4,10 @@
 
 - Ruby 3.3 or newer
 - Rails 8.1 or newer
-- Recording Studio 4.x (`~> 4.2` in the gemspec; GitHub tag `v4.7.0`)
-- Accessible dummy tag `v0.18.0`, Trashable dummy tag `v0.11.0` (`require: false`; required by Accessible >= 0.17), Root Switchable dummy tag `v0.9.0`, Metrics dummy tag `v0.2.0` (required by Root Switchable >= 0.7), and Cache dummy tag `v0.5.0` (required by Root Switchable >= 0.9)
-- FlatPack dummy tag `v0.1.196`
+- Recording Studio 6.1 or newer, below 7 (`>= 6.1, < 7` in the gemspec; root and dummy GitHub tag `v6.3.0`)
+- Accessible dummy tag `v0.23.1`, Trashable dummy tag `v0.12.0` (`require: false`; required by Accessible), Root Switchable dummy tag `v0.11.2`, Metrics dummy tag `v0.7.0`, and Cache dummy tag `v0.6.0`
+- FlatPack dummy tag `v0.1.329` and `view_component` `4.20.0` (resolved from FlatPack, not a Gemfile pin)
+- Users dummy tag `v0.26.5` (`require: false`), Admin dummy tag `v2.5.1` (`require: false`, so the bundle does not pull Logs), and Attachable dummy tag `v0.22.0` (`require: false`)
 - Public RubyGems and GitHub access for dependency installation
 
 ## Verification

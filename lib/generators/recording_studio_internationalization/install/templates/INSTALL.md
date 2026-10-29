@@ -9,3 +9,4 @@ Next steps:
 5. Add `recording_studio_locale_attributes` to your layout's `<html>` tag so `lang` and `dir` follow the locale.
 6. Run `bin/rails recording_studio_internationalization:missing` to list gem strings your locale files do not translate yet.
 7. Run `bin/rails tailwindcss:build` if you use Tailwind CSS.
+8. For FlatPack's Tailwind sources, run `bin/rails generate flat_pack:install`. This generator does not add them.

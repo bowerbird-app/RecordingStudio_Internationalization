@@ -53,7 +53,7 @@ This will:
 1. **Mount the engine** at `/gem_template` in your `config/routes.rb`
 2. **Create a configuration initializer** at `config/initializers/gem_template.rb`
 3. **Optionally create `config/gem_template.yml`** for environment-specific settings
-4. **Configure Tailwind** to include engine and FlatPack sources (if Tailwind is detected)
+4. **Configure Tailwind** with this gem's own `@source` lines (if Tailwind is detected), then tell you to run `bin/rails generate flat_pack:install`
 5. **Display post-installation instructions**
 
 ---
@@ -84,14 +84,13 @@ See [CONFIGURATION.md](CONFIGURATION.md) for all options.
 
 ### Tailwind CSS
 
-If your app uses Tailwind, the generator adds `@source` directives to include engine views and FlatPack components:
+If your app uses Tailwind, the generator adds only this gem's `@source` lines:
 
 ```css
 @source "../../vendor/bundle/**/gem_template/app/views/**/*.erb";
-@source "../../vendor/bundle/**/flatpack/app/components/**/*.{rb,erb}";
 ```
 
-This ensures Tailwind scans the engine's templates for class names during CSS compilation.
+It does not write FlatPack's sources. Remove any FlatPack `@source` lines an older generator wrote, then run `bin/rails generate flat_pack:install`.
 
 ---
 
@@ -124,12 +123,13 @@ end
 
 ### Configure Tailwind (If Using)
 
-Add to your `app/assets/tailwind/application.css`:
+Add this gem's view source to `app/assets/tailwind/application.css`:
 
 ```css
 @source "../../vendor/bundle/**/gem_template/app/views/**/*.erb";
-@source "../../vendor/bundle/**/flatpack/app/components/**/*.{rb,erb}";
 ```
+
+Remove any old FlatPack `@source` lines from that file, then run `bin/rails generate flat_pack:install` for FlatPack's sources.
 
 Then rebuild:
 
@@ -196,15 +196,15 @@ The `gem_template` helper provides access to all engine routes.
 
 ## RecordingStudio Host-App Check
 
-This template's dummy app uses RecordingStudio `v4.7.0` (`~> 4.2` in the gemspec). Keep
+This dummy app uses Recording Studio `v6.3.0` (`>= 6.1, < 7` in the gemspec). Keep
 `config.require_recordable_declarations = true`, declare every configured recordable with
 `recording_studio_recordable(...)`, and create roots with `RecordingStudio.root_recording_for(recordable)`.
 Child recordings must be created with an explicit `parent_recording`.
 
-When Accessible is bundled, pin the dummy or host Gemfile to `v0.18.0`, add
-`recording_studio_trashable` at `v0.11.0` with `require: false`, run
+When Accessible is bundled, pin the dummy or host Gemfile to `v0.23.1`, add
+`recording_studio_trashable` at `v0.12.0` with `require: false`, run
 `bin/rails generate recording_studio_accessible:migrations`, migrate, and rebuild Tailwind after
-bumping FlatPack (`v0.1.196`).
+bumping FlatPack (`v0.1.329`).
 
 ---
 

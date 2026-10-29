@@ -103,9 +103,10 @@ fr:
         engine: Moteur du gem
       methods:
         title: Méthodes
-        subtitle: Documentez les méthodes publiques que votre module expose.
-        example: Méthode d'exemple
-        hint: Ajoutez un titre de section et un bloc de code par méthode
+        subtitle: Les noms et les libellés de type viennent de Recording Studio.
+        name: Nom
+        type: Type
+        hint: Appelez ces méthodes au lieu d'inventer un libellé local.
   devise:
     failure:
       already_authenticated: Vous êtes déjà connecté(e).

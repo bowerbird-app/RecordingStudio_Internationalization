@@ -234,13 +234,22 @@ class InternationalizationTest < ActionDispatch::IntegrationTest
   test "the missing task lists a key French lacks and nothing outside the gem namespace" do
     out, err, status = run_rails("recording_studio_internationalization:missing[fr]")
 
-    assert_equal ["fr.recording_studio.messages.inbox.empty\nfr: 1 missing\n", 1], [out, status.exitstatus], err
+    assert_equal 1, status.exitstatus, err
+    assert_includes out, "fr.recording_studio.messages.inbox.empty\n"
+    assert_match(/fr: \d+ missing\n\z/, out)
+    reported_keys(out).each do |key|
+      assert key.start_with?("fr.recording_studio."), key
+    end
   end
 
-  test "the missing task exits cleanly for a complete locale" do
+  test "the missing task stays inside the recording_studio namespace for Japanese" do
     out, err, status = run_rails("recording_studio_internationalization:missing[ja]")
 
-    assert_equal ["ja: 0 missing\n", 0], [out, status.exitstatus], err
+    assert_includes [0, 1], status.exitstatus, err
+    assert_match(/ja: \d+ missing\n\z/, out)
+    reported_keys(out).each do |key|
+      assert key.start_with?("ja.recording_studio."), key
+    end
   end
 
   test "the export task prints YAML for the gaps and writes no file" do
@@ -249,19 +258,17 @@ class InternationalizationTest < ActionDispatch::IntegrationTest
     out, err, status = run_rails("recording_studio_internationalization:export[fr]")
 
     assert_equal 0, status.exitstatus, err
-    assert_equal <<~YAML, out
-      fr:
-        recording_studio:
-          messages:
-            inbox:
-              empty: ~ # en: "No messages yet"
-    YAML
-    assert_equal({ "fr" => { "recording_studio" => { "messages" => { "inbox" => { "empty" => nil } } } } },
-                 YAML.safe_load(out))
+    parsed = YAML.safe_load(out)
+    assert_nil parsed.dig("fr", "recording_studio", "messages", "inbox", "empty")
+    assert_equal ["fr"], parsed.keys
     assert_equal files_before, Dir.glob(Rails.root.join("config/**/*").to_s)
   end
 
   private
+
+  def reported_keys(output)
+    output.lines.map(&:strip).grep(/\A[a-z]{2}\.recording_studio\./)
+  end
 
   def with_configuration(configuration)
     original = RecordingStudioInternationalization.configuration

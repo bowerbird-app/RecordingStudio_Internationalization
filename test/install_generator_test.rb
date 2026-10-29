@@ -37,21 +37,26 @@ class InstallGeneratorTest < Minitest::Test
     assert_equal ["mount RecordingStudioInternationalization::Engine, at: \"/addons/recording\""], routes
   end
 
-  def test_add_tailwind_source_injects_engine_and_flatpack_sources
+  FLATPACK_INSTALL_NOTE = "For FlatPack's Tailwind sources, run `bin/rails generate flat_pack:install`."
+
+  def test_add_tailwind_source_injects_engine_sources_only
     with_temp_app do |dir|
       css_path = File.join(dir, "app/assets/tailwind/application.css")
       File.write(css_path, "@import \"tailwindcss\";\n")
 
       generator = build_generator(dir)
+      messages = []
 
       Rails.stub(:root, Pathname.new(dir)) do
-        generator.stub(:say, nil) do
+        generator.stub(:say, ->(message, color = nil) { messages << [message, color] }) do
           generator.add_tailwind_source
         end
       end
 
       css = File.read(css_path)
       assert_tailwind_sources_present(css)
+      refute_includes css, "flatpack"
+      assert_includes messages, [FLATPACK_INSTALL_NOTE, :yellow]
     end
   end
 
@@ -62,8 +67,6 @@ class InstallGeneratorTest < Minitest::Test
         @import "tailwindcss";
         @source "../../vendor/bundle/**/recording_studio_internationalization/app/views/**/*.erb";
         @source "../../../../../../usr/local/bundle/ruby/**/bundler/gems/recording_studio_internationalization-*/app/views/**/*.erb";
-        @source "../../vendor/bundle/**/flatpack/app/components/**/*.{rb,erb}";
-        @source "../../../../../../usr/local/bundle/ruby/**/bundler/gems/flatpack-*/app/components/**/*.{rb,erb}";
       CSS
 
       generator = build_generator(dir)
@@ -92,6 +95,7 @@ class InstallGeneratorTest < Minitest::Test
         end
       end
 
+      assert_includes messages, [FLATPACK_INSTALL_NOTE, :yellow]
       assert_includes messages, ["Tailwind CSS not detected. Skipping Tailwind configuration.", :yellow]
       assert_includes messages, ["If you use Tailwind, add these lines to your Tailwind CSS config:", :yellow]
       tailwind_source_lines.each do |line|
@@ -114,6 +118,7 @@ class InstallGeneratorTest < Minitest::Test
       end
 
       assert_equal "@source \"../local/**/*.erb\";\n", File.read(css_path)
+      assert_includes messages, [FLATPACK_INSTALL_NOTE, :yellow]
       assert_includes messages, ["Could not find @import \"tailwindcss\" in your Tailwind config.", :yellow]
       assert_includes messages, ["Please manually add these lines to your Tailwind CSS config:", :yellow]
       tailwind_source_lines.each do |line|
@@ -142,6 +147,7 @@ class InstallGeneratorTest < Minitest::Test
                     "Set `available_locales` in config/initializers/recording_studio_internationalization.rb"
     assert_includes install_guide, "<%= recording_studio_language_selector %>"
     assert_includes install_guide, "bin/rails recording_studio_internationalization:missing"
+    assert_includes install_guide, "bin/rails generate flat_pack:install"
     refute_includes install_guide, "migrations"
     refute_includes install_guide, "db:migrate"
   end
@@ -164,9 +170,7 @@ class InstallGeneratorTest < Minitest::Test
     bundled_gems = "../../../../../../usr/local/bundle/ruby/**/bundler/gems"
     [
       '@source "../../vendor/bundle/**/recording_studio_internationalization/app/views/**/*.erb";',
-      "@source \"#{bundled_gems}/recording_studio_internationalization-*/app/views/**/*.erb\";",
-      '@source "../../vendor/bundle/**/flatpack/app/components/**/*.{rb,erb}";',
-      "@source \"#{bundled_gems}/flatpack-*/app/components/**/*.{rb,erb}\";"
+      "@source \"#{bundled_gems}/recording_studio_internationalization-*/app/views/**/*.erb\";"
     ]
   end
 end

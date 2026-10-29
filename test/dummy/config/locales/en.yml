@@ -87,9 +87,10 @@ en:
         engine: "Gem engine"
       methods:
         title: "Methods"
-        subtitle: "Document the public methods your addon exposes."
-        example: "Example method"
-        hint: "Provide one section title and codeblock for each method"
+        subtitle: "Names and type labels come from Recording Studio."
+        name: "Name"
+        type: "Type"
+        hint: "Call these instead of inventing a local label."
   recording_studio:
     presskits:
       index:

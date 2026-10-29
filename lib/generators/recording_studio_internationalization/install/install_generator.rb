@@ -35,6 +35,8 @@ module RecordingStudioInternationalization
       end
 
       def add_tailwind_source
+        say_flatpack_install_note
+
         tailwind_css_path = Rails.root.join("app/assets/tailwind/application.css")
         return show_missing_tailwind_notice unless File.exist?(tailwind_css_path)
 
@@ -42,7 +44,7 @@ module RecordingStudioInternationalization
         missing_lines = missing_tailwind_source_lines(tailwind_content)
 
         if missing_lines.empty?
-          say "Tailwind already configured to include RecordingStudioInternationalization and FlatPack sources.", :green
+          say "Tailwind already configured to include RecordingStudioInternationalization sources.", :green
           return
         end
 
@@ -68,6 +70,10 @@ module RecordingStudioInternationalization
         end
       end
 
+      def say_flatpack_install_note
+        say "For FlatPack's Tailwind sources, run `bin/rails generate flat_pack:install`.", :yellow
+      end
+
       def missing_tailwind_source_lines(tailwind_content)
         tailwind_source_lines.reject { |line| tailwind_content.include?(line) }
       end
@@ -76,17 +82,15 @@ module RecordingStudioInternationalization
         inject_into_file tailwind_css_path, after: "@import \"tailwindcss\";\n" do
           "#{formatted_tailwind_source_block(missing_lines)}\n"
         end
-        say "Added RecordingStudioInternationalization and FlatPack sources to Tailwind CSS configuration.", :green
+        say "Added RecordingStudioInternationalization sources to Tailwind CSS configuration.", :green
         say "Run 'bin/rails tailwindcss:build' to rebuild your CSS.", :green
       end
 
       def formatted_tailwind_source_block(missing_lines)
         [
           "\n/* Include RecordingStudioInternationalization engine views for Tailwind CSS */",
-          missing_lines.first(2),
-          "\n/* Include FlatPack component sources for Tailwind CSS */",
-          missing_lines.drop(2)
-        ].flatten.reject(&:empty?).join("\n")
+          *missing_lines
+        ].join("\n")
       end
 
       def show_manual_tailwind_notice(missing_lines)
@@ -101,9 +105,7 @@ module RecordingStudioInternationalization
         bundled_gems = "../../../../../../usr/local/bundle/ruby/**/bundler/gems"
         [
           '@source "../../vendor/bundle/**/recording_studio_internationalization/app/views/**/*.erb";',
-          "@source \"#{bundled_gems}/recording_studio_internationalization-*/app/views/**/*.erb\";",
-          '@source "../../vendor/bundle/**/flatpack/app/components/**/*.{rb,erb}";',
-          "@source \"#{bundled_gems}/flatpack-*/app/components/**/*.{rb,erb}\";"
+          "@source \"#{bundled_gems}/recording_studio_internationalization-*/app/views/**/*.erb\";"
         ]
       end
     end

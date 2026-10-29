@@ -71,13 +71,10 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "Page"
   end
 
-  test "recordings tree page renders successfully" do
-    workspace = Workspace.create!(name: "Tree Workspace")
-    root_recording = RecordingStudio.root_recording_for(workspace)
-    folder = Folder.create!(name: "Reference")
-    folder_recording = record_child(folder, root_recording, root_recording)
-    page = Page.create!(title: "API")
-    record_child(page, root_recording, folder_recording)
+  test "recordings tree page renders the current root only" do
+    root_recording = record_named_tree("Tree Workspace", "Reference", "API")
+    record_named_tree("Other Workspace", "Elsewhere", "Other Page")
+    switch_current_root(root_recording)
 
     get docs_recordings_tree_path
 
@@ -86,6 +83,8 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "Workspace: Tree Workspace"
     assert_includes response.body, "Folder: Reference"
     assert_includes response.body, "Page: API"
+    refute_includes response.body, "Workspace: Other Workspace"
+    refute_includes response.body, "Elsewhere"
     refute_includes response.body, "Access boundary"
     refute_includes response.body, "Access: Admin"
     assert_select "div[role='tree']", count: 1
@@ -102,15 +101,22 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     refute_includes response.body, "app/views/recording_studio_internationalization/home/index.html.erb"
   end
 
-  test "methods page renders successfully" do
+  test "methods page renders core name and type helpers" do
     get docs_methods_path
     assert_response :success
     assert_select "h1", text: "Methods"
-    assert_includes response.body, "Document the public methods your addon exposes."
-    assert_includes response.body, "Example method"
-    assert_includes response.body, "recordingstudio_addon.example_method"
-    assert_includes response.body, "# Explain what this method does before the example."
-    assert_includes response.body, "Provide one section title and codeblock for each method"
+    assert_includes response.body, "RecordingStudio.recordable_name"
+    assert_includes response.body, "RecordingStudio.recordable_type_label"
+    assert_includes response.body, "RecordingStudio.recordable_name(page)"
+    assert_match(/RecordingStudio\.recordable_type_label\((?:"|&quot;)Page(?:"|&quot;)\)/, response.body)
+    refute_includes response.body, "recordingstudio_addon.example_method"
+    refute_includes response.body, "Example method"
+  end
+
+  test "engine root responds" do
+    get "/recording_studio_internationalization"
+
+    assert_response :success
   end
 
   test "authenticated docs pages use the recording studio default layout" do
@@ -154,6 +160,24 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
   def recordable_type_summary(recording_count, recordable_count)
     "#{I18n.t('dummy.docs.recordable_types.recordings', count: recording_count)} • " \
       "#{I18n.t('dummy.docs.recordable_types.recordables', count: recordable_count)}"
+  end
+
+  def record_named_tree(workspace_name, folder_name, page_title)
+    root_recording = RecordingStudio.root_recording_for(Workspace.create!(name: workspace_name))
+    folder_recording = record_child(Folder.create!(name: folder_name), root_recording, root_recording)
+    record_child(Page.create!(title: page_title), root_recording, folder_recording)
+    root_recording
+  end
+
+  def switch_current_root(root_recording)
+    patch "/recording_studio_root_switchable/v1/root_switch", params: {
+      scope: "all_workspaces",
+      root_switch: {
+        root_recording_id: root_recording.id,
+        return_to: docs_recordings_tree_path
+      }
+    }
+    follow_redirect! if response.redirect?
   end
 
   def record_child(recordable, root_recording, parent_recording)

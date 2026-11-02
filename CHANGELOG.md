@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- Dummy Sign out uses FlatPack Button `href:` instead of `url:`, so the control is a real link with Turbo DELETE.
+
 ## [0.2.0] - 2026-10-29
 
 Removed the unused `config.hooks.extend_model` / `extend_controller` API. The install generator no longer writes FlatPack Tailwind sources. This release requires Recording Studio 6.1 or newer. Dummy docs label recordings with Recording Studio's helpers, and the dummy pins move to current sibling tags.

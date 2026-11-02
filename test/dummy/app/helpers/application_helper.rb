@@ -14,7 +14,7 @@ module ApplicationHelper
           text: t("dummy.nav.sign_out"),
           style: :ghost,
           size: :md,
-          url: main_app.destroy_user_session_path,
+          href: main_app.destroy_user_session_path,
           data: { turbo_method: :delete }
         )
       )

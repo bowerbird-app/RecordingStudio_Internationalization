@@ -252,6 +252,8 @@ class RecordingStudioInternationalizationTest < Minitest::Test
 
     assert_includes helper, 't("dummy.nav.sign_out")'
     refute_includes helper, 'text: "Sign out"'
+    assert_includes helper, "href: main_app.destroy_user_session_path"
+    refute_includes helper, "url: main_app.destroy_user_session_path"
     assert_includes sign_in, 't("dummy.sessions.title")'
     refute_includes sign_in, 'title: "Login"'
     locales.each do |data|

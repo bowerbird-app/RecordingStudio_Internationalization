@@ -162,6 +162,14 @@ class InternationalizationTest < ActionDispatch::IntegrationTest
     assert_equal "recording_studio_locale=en", locale_cookie_attributes.first
   end
 
+  test "sign out is a FlatPack link with href and turbo delete" do
+    get "/"
+
+    assert_response :success
+    assert_select "button[url]", count: 0
+    assert_select "a[href='#{destroy_user_session_path}'][data-turbo-method=delete]", text: I18n.t("dummy.nav.sign_out")
+  end
+
   test "home chrome follows English, French, and Japanese" do
     chrome_keys = %w[
       dummy.home.title

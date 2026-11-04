@@ -1,17 +1,20 @@
 <%# turbo: false makes the switch a full page load, so the new lang and dir apply and Turbo cannot restore a cached page in the old language. %>
-<%= form_with url: recording_studio_internationalization.locale_path, method: :patch, data: { turbo: false }, **html_options do |form| %>
+<%= form_with url: recording_studio_internationalization.locale_path, method: :patch, data: { turbo: false, controller: "flat-pack--auto-submit" }, **html_options do |form| %>
   <%= form.hidden_field :return_to, value: request.fullpath %>
   <%= render FlatPack::Select::Component.new(
         name: "locale",
         label: t("recording_studio.internationalization.selector.label"),
         options: locales.map { |locale| [locale.name, locale.code.to_s] },
         value: I18n.locale.to_s,
-        placeholder: nil
+        placeholder: nil,
+        data: { action: "change->flat-pack--auto-submit#submitNow" }
       ) %>
-  <%= render FlatPack::Button::Component.new(
-        text: t("recording_studio.internationalization.selector.submit"),
-        style: :secondary,
-        size: :sm,
-        type: "submit"
-      ) %>
+  <noscript>
+    <%= render FlatPack::Button::Component.new(
+          text: t("recording_studio.internationalization.selector.submit"),
+          style: :secondary,
+          size: :sm,
+          type: "submit"
+        ) %>
+  </noscript>
 <% end %>

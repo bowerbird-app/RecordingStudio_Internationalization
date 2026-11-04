@@ -7,9 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-04
+
+The language selector submits when the select changes, so the Change language button no longer sits beside it on a phone. Dummy Sign out uses a real link.
+
 ### Changed
 
+- The language selector uses FlatPack's `flat-pack--auto-submit` controller. Changing the select submits the form. The Change language button renders only inside `<noscript>`.
 - Dummy Sign out uses FlatPack Button `href:` instead of `url:`, so the control is a real link with Turbo DELETE.
+
+### Upgrade notes
+
+- No migration and no configuration change.
+- The helper API is unchanged. Hosts that overrode `locales/_selector.html.erb` should copy the auto-submit controller onto the form, the `change` action onto the select, and keep the submit button inside `<noscript>`.
 
 ## [0.2.0] - 2026-10-29
 

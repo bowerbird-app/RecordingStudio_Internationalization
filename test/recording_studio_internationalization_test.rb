@@ -5,7 +5,7 @@ require "yaml"
 
 class RecordingStudioInternationalizationTest < Minitest::Test
   def test_version_matches_release
-    assert_equal "0.2.0", ::RecordingStudioInternationalization::VERSION
+    assert_equal "0.2.1", ::RecordingStudioInternationalization::VERSION
   end
 
   def test_engine_exists
@@ -23,6 +23,19 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     packaged = spec.files.select { |path| path.include?("gem_locale_fixtures") }
 
     assert_empty packaged
+  end
+
+  def test_language_selector_partial_wires_flatpack_auto_submit
+    partial = File.read(
+      File.expand_path("../app/views/recording_studio_internationalization/locales/_selector.html.erb", __dir__)
+    )
+
+    assert_includes partial, 'data: { turbo: false, controller: "flat-pack--auto-submit" }'
+    assert_includes partial, 'data: { action: "change->flat-pack--auto-submit#submitNow" }'
+    assert_includes partial, "<noscript>"
+    assert_includes partial, 't("recording_studio.internationalization.selector.label")'
+    assert_includes partial, 't("recording_studio.internationalization.selector.submit")'
+    refute_match(/searchable:\s*true/, partial)
   end
 
   def test_gemspec_requires_recording_studio_6_1

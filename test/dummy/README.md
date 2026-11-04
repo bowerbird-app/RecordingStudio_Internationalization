@@ -9,7 +9,7 @@ This Rails app exists to validate the Recording Studio addon template in a real 
 - Root workspace plus seeded folder and page recordables
 - Recording Studio default layout, FlatPack assets, and Tailwind source scanning
 - Mounted `RecordingStudio::Engine` route behavior inside a host app
-- A language selector on the home page for English, French, and Japanese
+- A language selector on the home page for English, French, and Japanese (it submits when the select changes)
 - Dummy chrome (titles, card headings, Sign out, sign-in) translated under `dummy.*` in `config/locales`
 - Dummy-only `/docs/*` pages for gem-specific onboarding
 

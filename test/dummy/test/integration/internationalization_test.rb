@@ -43,6 +43,20 @@ class InternationalizationTest < ActionDispatch::IntegrationTest
     assert_select "form[action='#{LOCALE_PATH}'] input[name='return_to'][value='/']", count: 1
   end
 
+  test "the language selector auto-submits and keeps the submit button inside noscript" do
+    get "/"
+
+    assert_response :success
+    assert_select "form[action='#{LOCALE_PATH}'][data-controller='flat-pack--auto-submit'][data-turbo='false']" do
+      assert_select "select[name='locale'][data-action='change->flat-pack--auto-submit#submitNow']"
+      assert_select "label[for]", text: I18n.t("recording_studio.internationalization.selector.label")
+      assert_select "noscript" do
+        assert_select "button[type='submit']", text: I18n.t("recording_studio.internationalization.selector.submit")
+      end
+    end
+    assert_select "form[action='#{LOCALE_PATH}'] > button[type='submit']", count: 0
+  end
+
   test "host English YAML overrides one gem string and both gem namespaces keep their keys" do
     get "/"
 

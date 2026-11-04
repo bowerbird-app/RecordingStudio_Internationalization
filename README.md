@@ -119,7 +119,7 @@ Render the helper where the host wants it. The gem does not add a navigation bar
 </html>
 ```
 
-The control lists only the host's locales and uses each locale's human name. Submitting it stores a permanent cookie and redirects back to the current page. The selector renders nothing when English is the only locale.
+The control lists only the host's locales and uses each locale's human name. Changing the select submits the form, stores a permanent cookie, and redirects back to the current page. Without JavaScript, a Change language button still appears. The selector renders nothing when English is the only locale.
 
 The dummy app under `test/dummy` is a host. It wraps its own titles, navigation, and sign-in copy in `dummy.*` keys and ships English, French, and Japanese for those strings. Other Recording Studio gems keep shipping English only.
 

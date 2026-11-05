@@ -5,7 +5,19 @@ require "yaml"
 
 class RecordingStudioInternationalizationTest < Minitest::Test
   def test_version_matches_release
-    assert_equal "0.2.1", ::RecordingStudioInternationalization::VERSION
+    assert_equal "0.2.2", ::RecordingStudioInternationalization::VERSION
+
+    root_lock = File.read(File.expand_path("../Gemfile.lock", __dir__))
+    dummy_lock = File.read(File.expand_path("dummy/Gemfile.lock", __dir__))
+
+    assert_includes root_lock, "    rails (8.1.4.1)"
+    assert_includes dummy_lock, "    rails (8.1.4.1)"
+    assert_includes root_lock, "    rack (3.2.8)"
+    assert_includes dummy_lock, "    rack (3.2.8)"
+    assert_includes root_lock, "    nokogiri (1.19.7-x86_64-linux-gnu)"
+    assert_includes root_lock, "    loofah (2.25.3)"
+    assert_includes root_lock, "    rails-html-sanitizer (1.7.2)"
+    assert_includes dummy_lock, "    net-ssh (7.3.8)"
   end
 
   def test_engine_exists

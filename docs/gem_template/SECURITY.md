@@ -41,7 +41,7 @@ end
 
 ### Dependencies
 - **Status**: ✅ Current
-- Rails 8.1 (latest stable)
+- Rails 8.1.4.1 in `Gemfile.lock` and `test/dummy/Gemfile.lock`
 - All gems from trusted sources (rubygems.org)
 - Gemspec includes `rubygems_mfa_required = true` for publishing security
 

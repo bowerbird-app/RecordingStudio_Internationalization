@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-11-05
+
+### Changed
+
+- Lockfiles resolve Rails 8.1.4.1. rack, nokogiri, loofah, and rails-html-sanitizer stay at their current patched versions. Dummy net-ssh is 7.3.8.
+
 ## [0.2.1] - 2026-11-04
 
 The language selector submits when the select changes, so the Change language button no longer sits beside it on a phone. Dummy Sign out uses a real link.

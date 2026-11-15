@@ -5,7 +5,7 @@ require "yaml"
 
 class RecordingStudioInternationalizationTest < Minitest::Test
   def test_version_matches_release
-    assert_equal "0.2.2", ::RecordingStudioInternationalization::VERSION
+    assert_equal "0.2.3", ::RecordingStudioInternationalization::VERSION
 
     root_lock = File.read(File.expand_path("../Gemfile.lock", __dir__))
     dummy_lock = File.read(File.expand_path("dummy/Gemfile.lock", __dir__))
@@ -54,7 +54,7 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     gemspec = File.read(File.expand_path("../recording_studio_internationalization.gemspec", __dir__))
     root_gemfile = File.read(File.expand_path("../Gemfile", __dir__))
 
-    assert_includes gemspec, 'spec.add_dependency "recording_studio", ">= 6.1", "< 7"'
+    assert_includes gemspec, 'spec.add_dependency "recording_studio", ">= 6.1", "< 8.0"'
     refute_includes gemspec, '">= 4.2"'
     assert_includes root_gemfile, 'github: "bowerbird-app/RecordingStudio", tag: "v6.3.0"'
     refute_includes root_gemfile, 'tag: "v4.7.0"'

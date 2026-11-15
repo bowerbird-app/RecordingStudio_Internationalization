@@ -19,6 +19,11 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     end
 
     sign_in @user
+    Current.actor = @user
+  end
+
+  teardown do
+    Current.actor = nil
   end
 
   test "install page renders successfully" do
@@ -138,10 +143,10 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
 
     workspace = Workspace.create!(name: "Counted Workspace")
     2.times do
-      RecordingStudio.root_recording_for(Workspace.create!(name: "Counted Workspace #{SecureRandom.hex(4)}"))
+      RecordingStudio.create_root_recording!(Workspace.create!(name: "Counted Workspace #{SecureRandom.hex(4)}"))
     end
 
-    root_recording = RecordingStudio.root_recording_for(workspace)
+    root_recording = RecordingStudio.create_root_recording!(workspace)
     folder = Folder.create!(name: "Counted Folder")
     record_child(folder, root_recording, root_recording)
 
@@ -163,7 +168,7 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def record_named_tree(workspace_name, folder_name, page_title)
-    root_recording = RecordingStudio.root_recording_for(Workspace.create!(name: workspace_name))
+    root_recording = RecordingStudio.create_root_recording!(Workspace.create!(name: workspace_name))
     folder_recording = record_child(Folder.create!(name: folder_name), root_recording, root_recording)
     record_child(Page.create!(title: page_title), root_recording, folder_recording)
     root_recording
@@ -181,11 +186,20 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def record_child(recordable, root_recording, parent_recording)
+    grant_writer!(root_recording)
     RecordingStudio.record!(
       action: "created",
       recordable: recordable,
       root_recording: root_recording,
-      parent_recording: parent_recording
+      parent_recording: parent_recording,
+      actor: @user
     ).recording
+  end
+
+  def grant_writer!(recording)
+    return if RecordingStudioAccessible.authorized?(actor: @user, recording: recording, role: :edit)
+
+    result = RecordingStudioAccessible.bootstrap_owner_access!(recording: recording, actor: @user)
+    raise(result.error || "Failed to bootstrap admin access") if result.failure?
   end
 end

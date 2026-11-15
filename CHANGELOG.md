@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-15
+
+Requires Recording Studio 7. Roots are created with `create_root_recording!`. `root_recording_for` only finds an existing root.
+
+### Breaking
+
+- Requires `recording_studio` `>= 7.0, < 8.0`. Recording Studio 6 no longer resolves.
+- `rails` is now `>= 8.1.0`.
+
+### Changed
+
+- Root and dummy Gemfiles pin Recording Studio `v7.0.0`. Lockfiles resolve `view_component` 4.24.0. Dummy `msgpack` is 1.8.7.
+- Dummy Accessible pin is `v0.43.1` and Trashable is `v0.16.1`, the tags that resolve with core 7. Root Switchable, Metrics, Cache, FlatPack, Users, Admin, and Attachable pins are unchanged.
+- Dummy seeds create workspace roots with `create_root_recording!`. The root switcher still looks roots up with `root_recording_for`.
+- The dummy host sets `config.authorize_write`. A persisted user may create a root (`root_recording` is nil). Later writes need an Accessible role on that root.
+
+### Upgrade notes
+
+- Move the host to Recording Studio 7.0 before bundling this release.
+- Replace `root_recording_for` calls that created a root with `create_root_recording!`. Leave real lookups on `root_recording_for` and handle `nil`.
+- Set `config.authorize_write`. A persisted user may create a root when `root_recording` is nil. Pass an actor on writes.
+- No migration in this gem. Apply Recording Studio's `recording_studio_events.root_recording_id` migration if the host schema does not have that column yet.
+
 ## [0.2.3] - 2026-11-15
 
 ### Changed

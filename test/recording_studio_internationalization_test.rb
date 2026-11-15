@@ -5,7 +5,7 @@ require "yaml"
 
 class RecordingStudioInternationalizationTest < Minitest::Test
   def test_version_matches_release
-    assert_equal "0.2.3", ::RecordingStudioInternationalization::VERSION
+    assert_equal "0.3.0", ::RecordingStudioInternationalization::VERSION
 
     root_lock = File.read(File.expand_path("../Gemfile.lock", __dir__))
     dummy_lock = File.read(File.expand_path("dummy/Gemfile.lock", __dir__))
@@ -18,6 +18,7 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     assert_includes root_lock, "    loofah (2.25.3)"
     assert_includes root_lock, "    rails-html-sanitizer (1.7.2)"
     assert_includes dummy_lock, "    net-ssh (7.3.8)"
+    assert_includes dummy_lock, "    msgpack (1.8.7)"
   end
 
   def test_engine_exists
@@ -50,13 +51,17 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     refute_match(/searchable:\s*true/, partial)
   end
 
-  def test_gemspec_requires_recording_studio_6_1
+  def test_gemspec_requires_recording_studio_7
     gemspec = File.read(File.expand_path("../recording_studio_internationalization.gemspec", __dir__))
     root_gemfile = File.read(File.expand_path("../Gemfile", __dir__))
 
-    assert_includes gemspec, 'spec.add_dependency "recording_studio", ">= 6.1", "< 8.0"'
+    assert_includes gemspec, 'spec.add_dependency "recording_studio", ">= 7.0", "< 8.0"'
+    assert_includes gemspec, 'spec.add_dependency "rails", ">= 8.1.0"'
+    refute_includes gemspec, '"~> 8.1.0"'
+    refute_includes gemspec, '">= 6.1"'
     refute_includes gemspec, '">= 4.2"'
-    assert_includes root_gemfile, 'github: "bowerbird-app/RecordingStudio", tag: "v6.3.0"'
+    assert_includes root_gemfile, 'github: "bowerbird-app/RecordingStudio", tag: "v7.0.0"'
+    refute_includes root_gemfile, 'tag: "v6.3.0"'
     refute_includes root_gemfile, 'tag: "v4.7.0"'
   end
 
@@ -93,9 +98,9 @@ class RecordingStudioInternationalizationTest < Minitest::Test
   def test_dummy_gemfile_pins_sibling_github_tags
     gemfile = File.read(File.expand_path("dummy/Gemfile", __dir__))
 
-    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio", tag: "v6.3.0"'
-    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_accessible", tag: "v0.23.1"'
-    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_trashable", tag: "v0.12.0"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio", tag: "v7.0.0"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_accessible", tag: "v0.43.1"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_trashable", tag: "v0.16.1"'
     assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_root_switchable", tag: "v0.11.2"'
     assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_metrics", tag: "v0.7.0"'
     assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_cache", tag: "v0.6.0"'
@@ -239,6 +244,9 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     initializer_source = File.read(initializer_path)
 
     assert_includes initializer_source, "config.require_recordable_declarations = true"
+    assert_includes initializer_source, "config.authorize_write"
+    assert_includes initializer_source, "next true if root_recording.nil?"
+    refute_includes initializer_source, "allow_unauthorized_writes"
     assert_includes initializer_source, "config.recordable_types = [ \"Workspace\", \"Folder\", \"Page\" ]"
     refute_includes initializer_source, "config.include_children"
     refute_includes initializer_source, "config.features."

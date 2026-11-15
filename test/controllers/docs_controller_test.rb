@@ -138,10 +138,10 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
 
     workspace = Workspace.create!(name: "Counted Workspace")
     2.times do
-      RecordingStudio.root_recording_for(Workspace.create!(name: "Counted Workspace #{SecureRandom.hex(4)}"))
+      RecordingStudio.create_root_recording!(Workspace.create!(name: "Counted Workspace #{SecureRandom.hex(4)}"))
     end
 
-    root_recording = RecordingStudio.root_recording_for(workspace)
+    root_recording = RecordingStudio.create_root_recording!(workspace)
     folder = Folder.create!(name: "Counted Folder")
     record_child(folder, root_recording, root_recording)
 
@@ -163,7 +163,7 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def record_named_tree(workspace_name, folder_name, page_title)
-    root_recording = RecordingStudio.root_recording_for(Workspace.create!(name: workspace_name))
+    root_recording = RecordingStudio.create_root_recording!(Workspace.create!(name: workspace_name))
     folder_recording = record_child(Folder.create!(name: folder_name), root_recording, root_recording)
     record_child(Page.create!(title: page_title), root_recording, folder_recording)
     root_recording

@@ -8,7 +8,7 @@ Interface text and user-created content are separate. This gem translates button
 
 ## Install
 
-Requires Recording Studio `>= 6.1, < 7`.
+Requires Recording Studio `>= 7.0, < 8`.
 
 Add the gem and mount the engine.
 

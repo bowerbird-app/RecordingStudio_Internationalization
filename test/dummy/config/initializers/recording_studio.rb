@@ -13,6 +13,10 @@ RecordingStudio.configure do |config|
   # Actor resolver for events when no actor is explicitly supplied
   config.actor = -> { Current.actor }
 
+  # This host has no write authorizer. Core 7 refuses record! and
+  # create_root_recording! unless one is set or this opt-out is on.
+  config.allow_unauthorized_writes = true
+
   # Emit ActiveSupport::Notifications events
   config.event_notifications_enabled = true
 

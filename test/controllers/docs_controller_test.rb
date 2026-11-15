@@ -19,6 +19,11 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     end
 
     sign_in @user
+    Current.actor = @user
+  end
+
+  teardown do
+    Current.actor = nil
   end
 
   test "install page renders successfully" do
@@ -181,11 +186,20 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def record_child(recordable, root_recording, parent_recording)
+    grant_writer!(root_recording)
     RecordingStudio.record!(
       action: "created",
       recordable: recordable,
       root_recording: root_recording,
-      parent_recording: parent_recording
+      parent_recording: parent_recording,
+      actor: @user
     ).recording
+  end
+
+  def grant_writer!(recording)
+    return if RecordingStudioAccessible.authorized?(actor: @user, recording: recording, role: :edit)
+
+    result = RecordingStudioAccessible.bootstrap_owner_access!(recording: recording, actor: @user)
+    raise(result.error || "Failed to bootstrap admin access") if result.failure?
   end
 end

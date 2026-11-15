@@ -13,9 +13,28 @@ RecordingStudio.configure do |config|
   # Actor resolver for events when no actor is explicitly supplied
   config.actor = -> { Current.actor }
 
-  # This host has no write authorizer. Core 7 refuses record! and
-  # create_root_recording! unless one is set or this opt-out is on.
-  config.allow_unauthorized_writes = true
+  # Core 7 creates a root with root_recording nil. A persisted user may create
+  # that root. Later writes need a role on the root.
+  config.authorize_write = lambda { |actor:, root_recording:, recordable:, **|
+    next false unless actor.is_a?(User) && actor.persisted?
+    next true if root_recording.nil?
+
+    if defined?(RecordingStudio::Access) && recordable.is_a?(RecordingStudio::Access)
+      next true if recordable.actor == actor
+
+      RecordingStudioAccessible.authorized?(
+        actor: actor,
+        recording: root_recording,
+        role: :admin
+      )
+    else
+      RecordingStudioAccessible.authorized?(
+        actor: actor,
+        recording: root_recording,
+        role: :edit
+      )
+    end
+  }
 
   # Emit ActiveSupport::Notifications events
   config.event_notifications_enabled = true

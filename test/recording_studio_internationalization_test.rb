@@ -244,6 +244,9 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     initializer_source = File.read(initializer_path)
 
     assert_includes initializer_source, "config.require_recordable_declarations = true"
+    assert_includes initializer_source, "config.authorize_write"
+    assert_includes initializer_source, "next true if root_recording.nil?"
+    refute_includes initializer_source, "allow_unauthorized_writes"
     assert_includes initializer_source, "config.recordable_types = [ \"Workspace\", \"Folder\", \"Page\" ]"
     refute_includes initializer_source, "config.include_children"
     refute_includes initializer_source, "config.features."

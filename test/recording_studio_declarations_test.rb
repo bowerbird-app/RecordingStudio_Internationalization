@@ -7,6 +7,18 @@ require_relative "dummy/config/environment"
 require "rails/test_help"
 
 class RecordingStudioDeclarationsTest < ActiveSupport::TestCase
+  setup do
+    @user = User.find_or_create_by!(email: "declarations@example.com") do |user|
+      user.password = "Password"
+      user.password_confirmation = "Password"
+    end
+    Current.actor = @user
+  end
+
+  teardown do
+    Current.actor = nil
+  end
+
   test "dummy recordable declarations validate and expose parent/root introspection" do
     assert RecordingStudio.validate_recordable_declarations!
     assert_equal ["Workspace"], RecordingStudio.root_recordable_types
@@ -33,8 +45,29 @@ class RecordingStudioDeclarationsTest < ActiveSupport::TestCase
     assert_equal 1, root_recording.events.where(action: "created").count
   end
 
+  test "a root write needs a persisted user" do
+    workspace = Workspace.create!(name: unique_name("Actorless Workspace"))
+    Current.actor = nil
+
+    assert_raises(RecordingStudio::ActorRequired) do
+      RecordingStudio.create_root_recording!(workspace)
+    end
+
+    unsaved = User.new(
+      email: "unsaved-declarations@example.com",
+      password: "Password",
+      password_confirmation: "Password"
+    )
+    error = assert_raises(RecordingStudio::AuthorizationError) do
+      RecordingStudio.create_root_recording!(workspace, actor: unsaved)
+    end
+    assert_equal "RecordingStudio write was denied by config.authorize_write", error.message
+    assert_nil RecordingStudio.root_recording_for(workspace)
+  end
+
   test "allowed child can be recorded under a workspace root" do
     root_recording = RecordingStudio.create_root_recording!(Workspace.create!(name: unique_name("Child Workspace")))
+    grant_writer!(root_recording)
     folder = Folder.new(name: unique_name("Allowed Folder"))
 
     event = RecordingStudio.record!(
@@ -105,12 +138,21 @@ class RecordingStudioDeclarationsTest < ActiveSupport::TestCase
   private
 
   def record_child(recordable, root_recording, parent_recording)
+    grant_writer!(root_recording)
     RecordingStudio.record!(
       action: "created",
       recordable: recordable,
       root_recording: root_recording,
-      parent_recording: parent_recording
+      parent_recording: parent_recording,
+      actor: @user
     ).recording
+  end
+
+  def grant_writer!(recording)
+    return if RecordingStudioAccessible.authorized?(actor: @user, recording: recording, role: :edit)
+
+    result = RecordingStudioAccessible.bootstrap_owner_access!(recording: recording, actor: @user)
+    raise(result.error || "Failed to bootstrap admin access") if result.failure?
   end
 
   def unique_name(prefix)

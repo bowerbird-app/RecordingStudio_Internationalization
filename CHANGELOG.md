@@ -18,7 +18,7 @@ Requires Recording Studio 7. Roots are created with `create_root_recording!`. `r
 
 ### Changed
 
-- Root and dummy Gemfiles pin Recording Studio `v7.0.0`. Lockfiles resolve `view_component` 4.24.0.
+- Root and dummy Gemfiles pin Recording Studio `v7.0.0`. Lockfiles resolve `view_component` 4.24.0. Dummy `msgpack` is 1.8.7.
 - Dummy Accessible pin is `v0.43.1` and Trashable is `v0.16.1`, the tags that resolve with core 7. Root Switchable, Metrics, Cache, FlatPack, Users, Admin, and Attachable pins are unchanged.
 - Dummy seeds create workspace roots with `create_root_recording!`. The root switcher still looks roots up with `root_recording_for`.
 - The dummy host sets `config.allow_unauthorized_writes = true`. It has no `authorize_write` callback, and core 7 refuses writes without one.

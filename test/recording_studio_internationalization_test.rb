@@ -18,6 +18,7 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     assert_includes root_lock, "    loofah (2.25.3)"
     assert_includes root_lock, "    rails-html-sanitizer (1.7.2)"
     assert_includes dummy_lock, "    net-ssh (7.3.8)"
+    assert_includes dummy_lock, "    msgpack (1.8.7)"
   end
 
   def test_engine_exists

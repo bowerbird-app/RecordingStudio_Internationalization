@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-11-18
+
+Development and dummy pins move to the current Recording Studio and FlatPack tags. The published gemspec range is unchanged.
+
+### Changed
+
+- Root Gemfile pins Recording Studio `v7.7.1` and FlatPack `v0.1.378`.
+- Dummy Gemfile pins: Recording Studio `v7.7.1`, Accessible `v0.54.0`, Trashable `v1.2.0`, Root Switchable `v0.16.0`, Metrics `v0.9.1`, Cache `v0.7.0`, FlatPack `v0.1.378`, Users `v0.36.0`, Admin `v2.19.0`, Attachable `v0.32.1`.
+- Dummy Gemfile also pins Logs `v0.8.1`, API `v1.15.0`, Moveable `v6.0.1`, and Icons `v0.4.1`. Admin, Users, and Attachable require those gems, and they are not on RubyGems. Each is `require: false`.
+- The dummy has `config/recording_studio_api.yml` because the API gem is now in the bundle.
+- Lockfiles resolve `tailwind_merge` 1.5.6. FlatPack `v0.1.378` requires `tailwind_merge` `>= 1.5.2, < 2`. The dummy lock also adds `redis` 5.4.1 and `redis-client` 0.31.0 because the API gem requires `redis` `~> 5.3`. `view_component` stays 4.24.0.
+
+### Upgrade notes
+
+- The gemspec still requires `recording_studio` `>= 7.0, < 8.0` and `rails` `>= 8.1.0`. Hosts already on Recording Studio 7 can bundle this release without a gemspec change.
+- This gem ships no migration. Copying the dummy Gemfile means adding the Logs, API, Moveable, and Icons git pins, and a `config/recording_studio_api.yml` with `shared: {}` when the API gem is installed.
+- Do not copy Recording Studio 7.4, 7.5, or 7.7 root-index migrations from core into an app that has chosen to leave them out.
+
 ## [0.3.0] - 2026-11-15
 
 Requires Recording Studio 7. Roots are created with `create_root_recording!`. `root_recording_for` only finds an existing root.

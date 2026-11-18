@@ -17,6 +17,10 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     assert_includes root_lock, "    nokogiri (1.19.7-x86_64-linux-gnu)"
     assert_includes root_lock, "    loofah (2.25.3)"
     assert_includes root_lock, "    rails-html-sanitizer (1.7.2)"
+    assert_includes root_lock, "    puma (8.1.2)"
+    assert_includes dummy_lock, "    puma (8.1.2)"
+    assert_includes root_lock, "  puma (>= 8.0.3)"
+    assert_includes dummy_lock, "  puma (>= 8.0.3)"
     assert_includes dummy_lock, "    net-ssh (7.3.8)"
     assert_includes dummy_lock, "    msgpack (1.8.7)"
   end
@@ -62,6 +66,8 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     refute_includes gemspec, '">= 4.2"'
     assert_includes root_gemfile, 'github: "bowerbird-app/RecordingStudio", tag: "v7.7.1"'
     assert_includes root_gemfile, 'github: "bowerbird-app/flatpack", tag: "v0.1.378"'
+    assert_includes root_gemfile, 'gem "puma", ">= 8.0.3"'
+    refute_match(/gem "puma", "8\./, root_gemfile)
     refute_includes root_gemfile, 'tag: "v6.3.0"'
     refute_includes root_gemfile, 'tag: "v4.7.0"'
   end
@@ -113,6 +119,8 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_api", tag: "v1.15.0"'
     assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_moveable", tag: "v6.0.1"'
     assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_icons", tag: "v0.4.1"'
+    assert_includes gemfile, 'gem "puma", ">= 8.0.3"'
+    refute_match(/gem "puma", "8\./, gemfile)
     refute_includes gemfile, 'gem "view_component"'
     refute_includes gemfile, 'tag: "v4.7.0"'
     refute_includes gemfile, 'tag: "v0.9.0"'

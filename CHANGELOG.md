@@ -18,6 +18,7 @@ Development and dummy pins move to the current Recording Studio and FlatPack tag
 - Dummy Gemfile also pins Logs `v0.8.1`, API `v1.15.0`, Moveable `v6.0.1`, and Icons `v0.4.1`. Admin, Users, and Attachable require those gems, and they are not on RubyGems. Each is `require: false`.
 - The dummy has `config/recording_studio_api.yml` because the API gem is now in the bundle.
 - Lockfiles resolve `tailwind_merge` 1.5.6. FlatPack `v0.1.378` requires `tailwind_merge` `>= 1.5.2, < 2`. The dummy lock also adds `redis` 5.4.1 and `redis-client` 0.31.0 because the API gem requires `redis` `~> 5.3`. `view_component` stays 4.24.0.
+- Root and dummy Gemfiles require `puma` `>= 8.0.3`. Lockfiles resolve `puma` 8.1.2. The constraint is a floor, not an exact pin.
 
 ### Upgrade notes
 

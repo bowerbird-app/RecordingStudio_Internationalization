@@ -27,7 +27,8 @@ class RootSwitchDropdownTest < ActionDispatch::IntegrationTest
     sign_in user
 
     workspace = Workspace.create!(name: "Dropdown Workspace")
-    RecordingStudio.create_root_recording!(workspace, actor: user)
+    workspace_root = RecordingStudio.create_root_recording!(workspace, actor: user)
+    bootstrap_owner_access!(workspace_root, user)
 
     get root_path
 
@@ -45,7 +46,9 @@ class RootSwitchDropdownTest < ActionDispatch::IntegrationTest
     sign_in user
 
     workspace = Workspace.create!(name: "Switch Page Workspace")
-    RecordingStudio.create_root_recording!(workspace, actor: user)
+    workspace_root = RecordingStudio.create_root_recording!(workspace, actor: user)
+    bootstrap_owner_access!(workspace_root, user)
+    grant_view_on_current_root!(user)
 
     get "/recording_studio_root_switchable/v1/root_switch?scope=all_workspaces"
 
@@ -65,7 +68,10 @@ class RootSwitchDropdownTest < ActionDispatch::IntegrationTest
     source_workspace = Workspace.create!(name: "Source Workspace")
     target_workspace = Workspace.create!(name: "Target Workspace")
     target_root_recording = RecordingStudio.create_root_recording!(target_workspace, actor: user)
-    RecordingStudio.create_root_recording!(source_workspace, actor: user)
+    bootstrap_owner_access!(target_root_recording, user)
+    source_root_recording = RecordingStudio.create_root_recording!(source_workspace, actor: user)
+    bootstrap_owner_access!(source_root_recording, user)
+    grant_view_on_current_root!(user)
 
     patch "/recording_studio_root_switchable/v1/root_switch", params: {
       scope: "all_workspaces",
@@ -89,7 +95,10 @@ class RootSwitchDropdownTest < ActionDispatch::IntegrationTest
     source_workspace = Workspace.create!(name: "Fallback Source Workspace")
     target_workspace = Workspace.create!(name: "Fallback Target Workspace")
     target_root_recording = RecordingStudio.create_root_recording!(target_workspace, actor: user)
-    RecordingStudio.create_root_recording!(source_workspace, actor: user)
+    bootstrap_owner_access!(target_root_recording, user)
+    source_root_recording = RecordingStudio.create_root_recording!(source_workspace, actor: user)
+    bootstrap_owner_access!(source_root_recording, user)
+    grant_view_on_current_root!(user)
 
     patch "/recording_studio_root_switchable/v1/root_switch", params: {
       scope: "all_workspaces",
@@ -100,5 +109,32 @@ class RootSwitchDropdownTest < ActionDispatch::IntegrationTest
     }
 
     assert_redirected_to "/"
+  end
+
+  private
+
+  def bootstrap_owner_access!(recording, actor)
+    result = RecordingStudioAccessible.bootstrap_owner_access!(recording: recording, actor: actor)
+    raise(result.error || "Failed to bootstrap owner access") if result.failure?
+
+    result
+  end
+
+  # Seeds already own Client Workspace, and the switcher defaults to the first
+  # workspace by name. The page gate checks :view on that current root.
+  def grant_view_on_current_root!(actor)
+    recording = Workspace.order(:name).filter_map { |workspace| RecordingStudio.root_recording_for(workspace) }.first
+    return if recording.nil?
+    return if RecordingStudioAccessible.authorized?(actor: actor, recording: recording, role: :view)
+
+    result = RecordingStudioAccessible.grant_access(
+      recording: recording,
+      actor: actor,
+      role: :view,
+      manager_actor: User.find_by!(email: "admin@admin.com")
+    )
+    raise(result.error || "Failed to grant view on the current root") if result.failure?
+
+    result
   end
 end

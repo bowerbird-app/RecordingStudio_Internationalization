@@ -175,6 +175,8 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def switch_current_root(root_recording)
+    grant_view_on_current_root!(@user)
+
     patch "/recording_studio_root_switchable/v1/root_switch", params: {
       scope: "all_workspaces",
       root_switch: {
@@ -201,5 +203,21 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
 
     result = RecordingStudioAccessible.bootstrap_owner_access!(recording: recording, actor: @user)
     raise(result.error || "Failed to bootstrap admin access") if result.failure?
+  end
+
+  # Seeds already own Client Workspace, and the switcher defaults to the first
+  # workspace by name. The page gate checks :view on that current root.
+  def grant_view_on_current_root!(actor)
+    recording = Workspace.order(:name).filter_map { |workspace| RecordingStudio.root_recording_for(workspace) }.first
+    return if recording.nil?
+    return if RecordingStudioAccessible.authorized?(actor: actor, recording: recording, role: :view)
+
+    result = RecordingStudioAccessible.grant_access(
+      recording: recording,
+      actor: actor,
+      role: :view,
+      manager_actor: User.find_by!(email: "admin@admin.com")
+    )
+    raise(result.error || "Failed to grant view on the current root") if result.failure?
   end
 end

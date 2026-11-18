@@ -5,7 +5,7 @@ require "yaml"
 
 class RecordingStudioInternationalizationTest < Minitest::Test
   def test_version_matches_release
-    assert_equal "0.3.0", ::RecordingStudioInternationalization::VERSION
+    assert_equal "0.3.1", ::RecordingStudioInternationalization::VERSION
 
     root_lock = File.read(File.expand_path("../Gemfile.lock", __dir__))
     dummy_lock = File.read(File.expand_path("dummy/Gemfile.lock", __dir__))
@@ -17,6 +17,10 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     assert_includes root_lock, "    nokogiri (1.19.7-x86_64-linux-gnu)"
     assert_includes root_lock, "    loofah (2.25.3)"
     assert_includes root_lock, "    rails-html-sanitizer (1.7.2)"
+    assert_includes root_lock, "    puma (8.1.2)"
+    assert_includes dummy_lock, "    puma (8.1.2)"
+    assert_includes root_lock, "  puma (>= 8.0.3)"
+    assert_includes dummy_lock, "  puma (>= 8.0.3)"
     assert_includes dummy_lock, "    net-ssh (7.3.8)"
     assert_includes dummy_lock, "    msgpack (1.8.7)"
   end
@@ -60,7 +64,10 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     refute_includes gemspec, '"~> 8.1.0"'
     refute_includes gemspec, '">= 6.1"'
     refute_includes gemspec, '">= 4.2"'
-    assert_includes root_gemfile, 'github: "bowerbird-app/RecordingStudio", tag: "v7.0.0"'
+    assert_includes root_gemfile, 'github: "bowerbird-app/RecordingStudio", tag: "v7.7.1"'
+    assert_includes root_gemfile, 'github: "bowerbird-app/flatpack", tag: "v0.1.378"'
+    assert_includes root_gemfile, 'gem "puma", ">= 8.0.3"'
+    refute_match(/gem "puma", "8\./, root_gemfile)
     refute_includes root_gemfile, 'tag: "v6.3.0"'
     refute_includes root_gemfile, 'tag: "v4.7.0"'
   end
@@ -98,16 +105,22 @@ class RecordingStudioInternationalizationTest < Minitest::Test
   def test_dummy_gemfile_pins_sibling_github_tags
     gemfile = File.read(File.expand_path("dummy/Gemfile", __dir__))
 
-    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio", tag: "v7.0.0"'
-    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_accessible", tag: "v0.43.1"'
-    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_trashable", tag: "v0.16.1"'
-    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_root_switchable", tag: "v0.11.2"'
-    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_metrics", tag: "v0.7.0"'
-    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_cache", tag: "v0.6.0"'
-    assert_includes gemfile, 'github: "bowerbird-app/flatpack", tag: "v0.1.329"'
-    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_users", tag: "v0.26.5"'
-    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_admin", tag: "v2.5.1"'
-    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_attachable", tag: "v0.22.0"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio", tag: "v7.7.1"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_accessible", tag: "v0.54.0"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_trashable", tag: "v1.2.0"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_root_switchable", tag: "v0.16.0"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_metrics", tag: "v0.9.1"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_cache", tag: "v0.7.0"'
+    assert_includes gemfile, 'github: "bowerbird-app/flatpack", tag: "v0.1.378"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_users", tag: "v0.36.0"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_admin", tag: "v2.19.0"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_attachable", tag: "v0.32.1"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_logs", tag: "v0.8.1"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_api", tag: "v1.15.0"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_moveable", tag: "v6.0.1"'
+    assert_includes gemfile, 'github: "bowerbird-app/RecordingStudio_icons", tag: "v0.4.1"'
+    assert_includes gemfile, 'gem "puma", ">= 8.0.3"'
+    refute_match(/gem "puma", "8\./, gemfile)
     refute_includes gemfile, 'gem "view_component"'
     refute_includes gemfile, 'tag: "v4.7.0"'
     refute_includes gemfile, 'tag: "v0.9.0"'
@@ -120,7 +133,6 @@ class RecordingStudioInternationalizationTest < Minitest::Test
     refute_includes gemfile, 'tag: "v4.2.0"'
     refute_includes gemfile, 'tag: "v0.17.0"'
     refute_includes gemfile, 'tag: "v0.15.0"'
-    refute_includes gemfile, 'tag: "v0.9.1"'
     refute_includes gemfile, 'tag: "v0.8.0"'
     refute_includes gemfile, 'tag: "v0.5.1"'
     refute_includes gemfile, 'tag: "v0.1.177"'

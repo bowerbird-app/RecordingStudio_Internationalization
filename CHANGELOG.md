@@ -23,7 +23,7 @@ Development and dummy pins move to the current Recording Studio and FlatPack tag
 
 - The gemspec still requires `recording_studio` `>= 7.0, < 8.0` and `rails` `>= 8.1.0`. Hosts already on Recording Studio 7 can bundle this release without a gemspec change.
 - This gem ships no migration. Copying the dummy Gemfile means adding the Logs, API, Moveable, and Icons git pins, and a `config/recording_studio_api.yml` with `shared: {}` when the API gem is installed.
-- Do not copy Recording Studio 7.4, 7.5, or 7.7 root-index migrations from core into an app that has chosen to leave them out.
+- Hosts moving to Recording Studio 7.7 must run the Recording Studio 7.4, 7.5, and 7.7 root-index migrations. Recording Studio 7.5 and 7.7, and API 1.4 and 1.7, require hosts to run them. Only this repo's dummy app leaves them out.
 
 ## [0.3.0] - 2026-11-15
 
